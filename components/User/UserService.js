@@ -15,7 +15,7 @@ const login = async (email, password) => {
     }
 }
 //http://localhost:3000/api/user/register
-const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
     try {
         console.log("QQQQ", email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode)
@@ -26,7 +26,7 @@ const register = async (email, password, name, description, avatar, role, create
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(password, salt);
 
-            const newUser = { email, password: hash, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode };
+            const newUser = { email, password: hash, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble };
             const u = new UserModel(newUser);
             await u.save();
             return true;
@@ -134,8 +134,23 @@ const changePassword = async (email, oldPassword, newPassword) => {
         throw error;
     }
 }
+const disableAccount = async (email, isAble) => {
+    try {
+        console.log(isAble);
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            user.isAble = isAble;
+            console.log(user.isAble);
+            await user.save();
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
 
+    }
+}
 module.exports = {
     login, register, deleteUser,
-    updateUser, getAllUser, search, changePassword
+    updateUser, getAllUser, search, changePassword, disableAccount
 };

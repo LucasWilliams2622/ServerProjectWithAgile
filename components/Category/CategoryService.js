@@ -23,35 +23,3 @@ const updateCategory = async (category) => {
 
 module.exports = { getCategories, saveCategory, deleteCategory, updateCategory, getCategoryById };
 
-var data1 = [{
-    "_id": 1,
-    "name": "Food"
-  }, {
-    "_id": 2,
-    "name": "Shopping"
-  }, {
-    "_id": 3,
-    "name": "Saving Money"
-  }, {
-    "_id": 4,
-    "name": "Fuel"
-  }, {
-    "_id": 5,
-    "name": "Hang out"
-  }, {
-    "_id": 6,
-    "name": "Wedding"
-  }, {
-    "_id": 7,
-    "name": "Picnic"
-  }, {
-    "_id": 8,
-    "name": "Children"
-  }, {
-    "_id": 9,
-    "name": "Study"
-  }, {
-    "_id": 10,
-    "name": "House"
-  }];
-  

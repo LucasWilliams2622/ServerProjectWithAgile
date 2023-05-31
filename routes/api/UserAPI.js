@@ -4,7 +4,7 @@ const upLoadImage = require("../../MiddleWare/UpLoadImage")
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const userController = require('../../components/User/UserController');
+const userController = require('../../components/User/UserController')
 //http://localhost:3000/user/api/login
 router.post('/login', async (req, res, next) => {
     try {
@@ -32,13 +32,15 @@ router.post('/login', async (req, res, next) => {
 router.post('/register', [], async (req, res, next) => {
     try {
         const { email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode } = req.body;
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble } = req.body;
         console.log(email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode)
         const user = await userController.register(email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode);
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble);
         console.log(user)
+
         if (user) {
+            await userController.sendMailForNewAccount(email);
             return res.status(200).json({ result: true, user: user, message: "Register Success" });
         }
         return res.status(400).json({ result: false, user: null, message: "Register Failed" });
@@ -52,12 +54,12 @@ router.put('/update', async (req, res, next) => {
 
     try {
         const { email, password, name, description,
-            gender, dob, avatar, role, createAt, updateAt, isLogin } = req.body;
+            gender, dob, avatar, role, createAt, updateAt, isLogin, isAble } = req.body;
         console.log(email, password, name, description,
             gender, dob, avatar, role, createAt, updateAt, isLogin);
 
         const user = await userController.updateUser(email, password, name, description,
-            gender, dob, avatar, role, createAt, updateAt, isLogin);
+            gender, dob, avatar, role, createAt, updateAt, isLogin, isAble);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Update Success" })
@@ -186,4 +188,49 @@ router.post('/verify-email', async (req, res) => {
         return res.status(500).json({ result: false, massage: "ERROR Verify" })//app
     }
 });
+//http://localhost:3000/user/api/disable
+router.put('/disable', async (req, res, next) => {
+
+    try {
+        //const { email } = req.params;
+        const { email, isAble } = req.body;
+        console.log(isAble);
+        const user = await userController.disableAccount(email, isAble);
+        console.log(user)
+        if (user) {
+            return res.status(200).json({ result: true, user: user, message: "Disabled" })
+        } else {
+            return res.status(400).json({ result: false, user: null, message: " user not exist" })
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ result: false, user: null })
+    }
+});
+//http://localhost:3000/user/api/login2
+router.post('/login2', async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        console.log(email, password)
+        const user = await userController.login(email, password);
+        console.log("aaaaaaaaa", user)
+        if (user) {
+            if (user.isAble) {
+                const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' })
+                return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
+            }
+            else {
+                return res.status(400).json({ result: false, message: "Tài khoản của bạn đã bị vô hiệu hóa" });
+            }
+        } else {
+            return res.status(400).json({ result: false, user: null, token: null, message: "Login Failed" });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500)
+            .json({ result: false, message: 'Error System' })
+    }
+})
+
 module.exports = router;
+

@@ -13,12 +13,21 @@ const session=require('express-session');
 //import Model
 require('./components/Category/CategoryModel');
 require('./components/Transaction/TransactionModel');
+require('./components/ManagerTransaction/ManagerTransactionModel');
 
 
 // API
+
+
 var UserAPIRouter = require('./routes/api/UserAPI')
-var categoryAPIRouter = require('./routes/api/CategoryApi')
-var transactionAPIRouter = require('./routes/api/TransactionAPI')
+var CategoryApiRouter = require('./routes/api/CategoryApi')
+var TransactionAPIRouter = require('./routes/api/TransactionAPI')
+var ManagerTransactionAPIRouter = require('./routes/api/ManagerTransactionAPI')
+
+
+
+
+
 
 var app = express();
 
@@ -32,6 +41,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', indexRouter);
+// API 
+// http://localhost:3000/user/api
+app.use('/user/api', UserAPIRouter);
 
 
 // khai bao thong tin cua session
@@ -54,10 +67,12 @@ mongoose.connect('mongodb+srv://adminLucas:123abc@cluster0.9he83yb.mongodb.net/'
 app.use('/user/api', UserAPIRouter);
 
 // http://localhost:3000/category/api
-app.use('/api/categories', categoryAPIRouter);
+app.use('/category/api', CategoryApiRouter);
 
 // http://localhost:3000/transaction/api
-app.use('/api/transactions', transactionAPIRouter);
+app.use('/transaction/api', TransactionAPIRouter);
+// http://localhost:3000/managerTransaction/api
+app.use('/managerTransaction/api', ManagerTransactionAPIRouter);
   
 
 
