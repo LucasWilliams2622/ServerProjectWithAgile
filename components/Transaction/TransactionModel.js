@@ -11,8 +11,10 @@ var datetime = currentdate.getDate() + "/"
 
 const transactionSchema = new Schema({
   id: { type: ObjectId },
+  name:{type: String},
   money:{type:Number},
   note:{type:String},
+  image:{type:String},
   category:{type:ObjectId ,ref:'Category', },
   createAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },

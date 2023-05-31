@@ -81,8 +81,5 @@ router.get('/searchExpense', async (req, res, next) => {
     }
 });
 
-//http://localhost:3000/api/transactions/
-router.post('/', [], async (req, res, next) => {
-    
-})
+
 module.exports = router;

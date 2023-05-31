@@ -9,7 +9,11 @@ router.post('/addTotalManager', async (req, res, next) => {
         console.log(limit, totalIncome, totalExpense, totalMoney)
         const total = await ManagerTransactionController.addTotalManager(limit, totalIncome, totalExpense, totalMoney);
         console.log("aaaaaaaaa", total)
-        return res.status(200).json({ result: true, message: 'Success' })
+        if(total){
+            return res.status(200).json({ result: true, message: 'Success' })
+        }else{
+            return res.status(400).json({ result: true, total: null })
+        }
     } catch (error) {
         console.log(error);
         return res.status(500).json({ result: false, message: 'Error ' })
@@ -20,7 +24,11 @@ router.post('/addTotalManager', async (req, res, next) => {
 router.get('/getAllTotallManager', [], async (req, res, next) => {
     try {
         const total = await ManagerTransactionController.getAllTotalManager();
-        return res.status(200).json({ result: true, total: total });
+        if(total){
+            return res.status(200).json({ result: true, total: total });
+        }else{
+            return res.status(400).json({ result: false, total: null });
+        }
     } catch (error) {
         console.log("Get all error: ", error);
         return res.status(500).json({ result: false, total: null });
@@ -33,10 +41,14 @@ router.post('/updateTotallManager/:id', async (req, res, next) => {
         const { limit, totalIncome, totalExpense, totalMoney } = body;
         const trans = await ManagerTransactionController.updatTotalTransactonById(id, limit, totalIncome, totalExpense, totalMoney);
         console.log(trans)
-        return res.status(200).json({ result: true, trans: trans });
+        if(trans){
+            return res.status(200).json({ result: true, trans: trans });
+        }else{
+            return res.status(400).json({ result: false, trans: null });
+        } 
     } catch (error) {
         console.log("Edit Total Manager error: ", error);
-        return res.status(500).json({ result: false, trans: null });
+        return res.status(500).json({ result: false, message:'Error' });
     }
 });
 
@@ -46,9 +58,13 @@ router.delete('/deleteTotallManager/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const trans = await ManagerTransactionController.deleteTotalTransactionById(id);
-        return res.status(200).json({ result: true, trans: trans });
+        if(trans){
+            return res.status(200).json({ result: true, trans: trans });
+        }else{
+            return res.status(400).json({ result: false, trans: null });
+        }
     } catch (error) {
-        return res.status(500).json({ result: false, trans: null });
+        return res.status(500).json({ result: false, message:'Error' });
     }
   });
   

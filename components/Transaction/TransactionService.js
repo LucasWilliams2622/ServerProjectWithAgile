@@ -69,4 +69,31 @@ const addNewTransaction = async (name, money, note, image, category, createAt, u
     }
 }
 
-module.exports = {addNewTransaction};
+const searchtotalIncome = async (type) => {
+    try {
+        return await TransactionModel.find({type: type }).populate('Incomne');
+    } catch (error) {
+        console.log('Search search Total Income: ', error);
+        return null;
+    }
+}
+;
+const searchTotalExpense = async (category) => {
+    try {
+        const a = await TransactionModel
+        .find({},'category')
+        .populate("category", 'type');
+        
+        console.log("=====================>",a);
+        return true
+
+    } catch (error) {
+        console.log('Search Total Expense: ', error);
+        return null;
+    }
+}
+module.exports = {
+    searchTransactionById, searchTransactionByCategory, searchTransactionByMoney,
+    searchTransactionByNote, searchTransactionByDate, searchTransactionByMounth,
+    searchTransactionByYear, searchTotalExpense, searchtotalIncome
+};
