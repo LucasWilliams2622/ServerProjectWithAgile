@@ -1,5 +1,38 @@
 const TransactionService = require('./TransactionService');
 
+
+
+
+
+
+const addNew = async (money, note, category, idUser, createAt, updateAt) => {
+    try {
+        return await TransactionService.addNew(money, note, category, idUser, createAt, updateAt);
+    } catch (error) {
+        console.log('Add New Transaction error: ', error);
+    }
+    return null;
+}
+
+
+const deleteById = async (id) => {
+    try {
+        return await TransactionService.deleteById(id);
+    } catch (error) {
+        console.log('Delete Transaction By Id error: ', error);
+    }
+    return null;
+}
+
+const editById = async (id, money, note, category, idUser, createAt, updateAt) => {
+    try {
+        return await TransactionService.editById(id, money, note, category, idUser, createAt, updateAt);
+    } catch (error) {
+        console.log('Edit Transaction By Id error: ', error);
+    }
+    return null;
+}
+
 const searchTransactionById = async (id) => {
     try {
         return await TransactionService.searchTransactionById(id);
@@ -9,32 +42,33 @@ const searchTransactionById = async (id) => {
     return null;
 }
 
-const searchProductByCategory = async (category) => {
+const searchTransactionByCategory = async (category) => {
     try {
-        return await TransactionService.searchProductByCategory(category);
+        return await TransactionService.searchTransactionByCategory(category);
     } catch (error) {
         console.log('Search Transaction By Category error: ', error);
     }
     return null;
 }
 
-const searchProductByMoney = async (money) => {
+const searchTransactionByMoney = async (money) => {
     try {
-        return await TransactionService.searchProductByCategory(money);
+        return await TransactionService.searchTransactionByMoney(money);
     } catch (error) {
         console.log('Search Transaction By Money error: ', error);
     }
     return null;
 }
 
-const searchProductByNote = async (note) => {
+const searchTransactionByNote = async (note) => {
     try {
-        return await TransactionService.searchProductByCategory(note);
+        return await TransactionService.searchTransactionByNote(note);
     } catch (error) {
         console.log('Search Transaction By Note error: ', error);
     }
     return null;
 }
+
 
 const addNewTransaction = async (name, money, note, image, category, createAt, updateAt) => {
     try {
@@ -95,4 +129,7 @@ const updateTransaction = async (transaction) => {
 }
 
 
-module.exports = { searchTransactionById, searchProductByCategory, searchProductByMoney, searchProductByNote };
+module.exports = {
+    addNew, deleteById, editById, searchTransactionById,
+    searchTransactionByCategory, searchTransactionByMoney, searchTransactionByNote
+};
