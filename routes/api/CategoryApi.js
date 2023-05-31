@@ -27,7 +27,7 @@ router.get('/get-all-categories', [], async (req, res, next) => {
 })
 
 //http://localhost:3000/api/categories/get-by-id
-router.get('/get-by-id/:categoryId', [], async (req, res, next) => {
+router.get('/get-by-id', [], async (req, res, next) => {
     try {
         const { categoryId } = req.params;
         return await res.status(200).json(await categoryController.getCategoryById(categoryId));
@@ -37,7 +37,7 @@ router.get('/get-by-id/:categoryId', [], async (req, res, next) => {
 })
 
 //http://localhost:3000/api/categories/delete-by-id
-router.delete('/delete-by-id/:categoryId', [], async (req, res, next) => {
+router.delete('/delete-by-id', [], async (req, res, next) => {
     try {
         const { categoryId } = req.params;
         return res.status(200).json(await categoryController.deleteCategory(categoryId));

@@ -15,10 +15,12 @@ const userSchema = new Schema({
   email: { type: String, default: "", unique: true },
   description:{type:String},
   password: { type: String, required: true },
+
   avatar: { type: String, default: "" },
   role: { type: Number, default: 1 },
   isLogin:{type:Boolean,default:false},
   isActive:{type:Boolean,default:true},
+  
   isVerified: { type: Boolean , default: false},
   verificationCode: { type: String , default:000000},
   createAt: { type: Date, default: Date.now },

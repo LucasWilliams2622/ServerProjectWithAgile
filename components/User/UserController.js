@@ -131,7 +131,7 @@ const sendMailForNewAccount = async (to) => {
         const mailOpitons = {
             from: 'VanSon <nguyenvanson2622003@gmail.com>',
             to,
-            subject: "Chào mừng bạn đến với hệ thống quản lý tiền ManFin",
+            subject: "Chào mừng bạn đến với hệ thống quản lý tiền Money Talk",
             html: `<!DOCTYPE html>
             <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
             
@@ -292,7 +292,7 @@ const sendMailForNewAccount = async (to) => {
                                                                         <td class="pad" style="padding-left:20px;">
                                                                             <div style="font-family: 'Trebuchet MS', Tahoma, sans-serif">
                                                                                 <div class style="font-size: 14px; font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; mso-line-height-alt: 16.8px; color: #63c9cb; line-height: 1.2;">
-                                                                                    <p style="margin: 0; font-size: 14px; mso-line-height-alt: 16.8px;"><span style="font-size:38px;">TO MY ManFin App!</span></p>
+                                                                                    <p style="margin: 0; font-size: 14px; mso-line-height-alt: 16.8px;"><span style="font-size:38px;">To Money Talk App!</span></p>
                                                                                 </div>
                                                                             </div>
                                                                         </td>

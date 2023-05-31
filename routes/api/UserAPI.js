@@ -29,7 +29,6 @@ router.post('/login', async (req, res, next) => {
     }
 })
 //http://localhost:3000/user/api/register
-
 router.post('/register', [], async (req, res, next) => {
     try {
         const { email, password, name, description, avatar, role, createAt,
