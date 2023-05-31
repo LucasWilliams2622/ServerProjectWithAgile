@@ -78,22 +78,22 @@ const searchtotalIncome = async (type) => {
     }
 }
 ;
-const searchTotalExpense = async (category) => {
-    try {
-        const a = await TransactionModel
-        .find({},'category')
-        .populate("category", 'type');
+// const searchTotalExpense = async (category) => {
+//     try {
+//         const a = await TransactionModel
+//         .find({},'category')
+//         .populate("category", 'type');
         
-        console.log("=====================>",a);
-        return true
+//         console.log("=====================>",a);
+//         return true
 
-    } catch (error) {
-        console.log('Search Total Expense: ', error);
-        return null;
-    }
-}
+//     } catch (error) {
+//         console.log('Search Total Expense: ', error);
+//         return null;
+//     }
+// }
 module.exports = {
     searchTransactionById, searchTransactionByCategory, searchTransactionByMoney,
     searchTransactionByNote, searchTransactionByDate, searchTransactionByMounth,
-    searchTransactionByYear, searchTotalExpense, searchtotalIncome
+      searchtotalIncome
 };

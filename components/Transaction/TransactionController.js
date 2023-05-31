@@ -45,14 +45,14 @@ const addNewTransaction = async (name, money, note, image, category, createAt, u
     }
     return null;
 }
-const addNewTransaction = async (name, money, note, image, category) => {
-    try {
-        return await TransactionService.addNewTransaction(name, money, note, image, category);
-    } catch (error) {
-        console.log("error: ", error);
-        throw error;
-    }
-}
+// const addNewTransaction = async (name, money, note, image, category) => {
+//     try {
+//         return await TransactionService.addNewTransaction(name, money, note, image, category);
+//     } catch (error) {
+//         console.log("error: ", error);
+//         throw error;
+//     }
+// }
 const getTransactions = async () => {
     try {
         return await TransactionService.getTransactions();
@@ -95,4 +95,4 @@ const updateTransaction = async (transaction) => {
 }
 
 
-module.exports = { searchTransactionById, searchProductByCategory, searchProductByMoney, searchProductByNote , searchTotalExpense, searchtotalIncome};
+module.exports = { searchTransactionById, searchProductByCategory, searchProductByMoney, searchProductByNote };

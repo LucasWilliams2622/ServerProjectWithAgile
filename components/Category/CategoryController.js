@@ -6,24 +6,33 @@ const getCategories = async () => {
     try {
         return await categoryService.getCategories();
     } catch (error) {
-        throw error;
+        return null;
+
     }
 }
 
-const getCategoryById = async (categoryId) => {
+const getCategoryById = async (id) => {
     try {
-        return await categoryService.getCategoryById(categoryId);
+        return await categoryService.getCategoryById(id);
     } catch (error) {
-        throw error;
+        return null;
     }
 }
 
-const saveCategory = async (category) => {
+const newCategory = async (name, type, image) => {
     try {
-        const result = await categoryService.saveCategory(category);
-        return {
-            ...result._doc
-        }
+        return await categoryService.newCategory(name, type, image);
+    }
+    catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+const deleteById = async (id) => {
+    try {
+        return await categoryService.deleteById(id);
+
     }
     catch (error) {
         console.log(error);
@@ -31,29 +40,12 @@ const saveCategory = async (category) => {
     }
 }
 
-const deleteCategory = async (categoryId) => {
+const updateById = async (id, name, type, image) => {
     try {
-        const result = await categoryService.deleteCategory(categoryId);
-        return result;
-    }
-    catch (error) {
-        console.log(error);
-        throw error;
-    }
-}
+        return await categoryService.updateById(id, name, type, image);
 
-const updateCategory = async (category) => {
-    try {
-        const oldCategory = categoryService.getCategoryById(category._id);
-        category = {
-            ...oldCategory, ...category
-        }
-        const result = await categoryService.updateCategory(category);
-        return result;
-    }
-    catch (error) {
-        console.log(error);
-        throw error;
+    } catch (error) {
+        return false;
     }
 }
-module.exports = {getCategories, saveCategory, deleteCategory, updateCategory, getCategoryById};
+module.exports = { getCategories, newCategory, deleteById, updateById, getCategoryById };

@@ -1,64 +1,80 @@
 const express = require('express');
 const router = express.Router();
 const categoryController = require('../../components/Category/CategoryController')
+const upLoadImage = require("../../MiddleWare/UpLoadImage")
 
-//http://localhost:3000/api/categories/new
-router.post('/new', [], async (req, res, next) => {
+
+//http://localhost:3000/category/api/new
+router.post('/new', [upLoadImage.single('image')], async (req, res, next) => {
     try {
-        const { name } = req.body;
-        const category = 
-        {
-            name: name,
+        let { body, file } = req;
+        if (file) {
+            file = `http://192.168.0.104:3000/images/${file.filename}`;
+            body = { ...body, image: file };
         }
-        const result = await categoryController.saveCategory(category);
-        return res.status(200).json({ ...result });
+        const { name, type, image } = body;
+        const category = await categoryController.newCategory(name, type, image);
+        if (category) {
+            return res.status(200).json({ massage: "Add new success", result: true, category: category, });
+        } else {
+            return res.status(400).json({ massage: "Failed to add new", result: false, category: null, });
+        }
     } catch (error) {
-        return res.status(400).json({ error: error })
+        return res.status(500).json({ error: error })
     }
 })
 
-//http://localhost:3000/api/categories/get-all-categories
+//http://localhost:3000/category/api/get-all-categories
 router.get('/get-all-categories', [], async (req, res, next) => {
     try {
         return await res.status(200).json(await categoryController.getCategories());
     } catch (error) {
-        return res.status(400).json({ error: error })
+        return res.status(500).json({ error: error })
     }
 })
 
-//http://localhost:3000/api/categories/get-by-id
+//http://localhost:3000/category/api/get-by-id?id
 router.get('/get-by-id', [], async (req, res, next) => {
     try {
-        const { categoryId } = req.params;
-        return await res.status(200).json(await categoryController.getCategoryById(categoryId));
+        const { id } = req.query;
+        const category = await categoryController.getCategoryById(id)
+        if (category) {
+            return res.status(200).json({ result: true, category: category });
+        }
+        return res.status(400).json({ result: false, category: null });
     } catch (error) {
-        return res.status(400).json({ error: error })
+        return res.status(500).json({ error: error })
     }
 })
 
-//http://localhost:3000/api/categories/delete-by-id
+//http://localhost:3000/category/api/delete-by-id
 router.delete('/delete-by-id', [], async (req, res, next) => {
     try {
-        const { categoryId } = req.params;
-        return res.status(200).json(await categoryController.deleteCategory(categoryId));
+        const { id } = req.query;
+        const category = await categoryController.deleteById(id)
+        if (category) {
+            return res.status(200).json({ message: "Delete Success", result: true, category: category });
+        }
+        return res.status(400).json({ result: false, category: null });
     } catch (error) {
         console.log(error)
-        return res.status(400).json({ error: error.message })
+        return res.status(500).json({ error: error.message })
     }
 })
 
-//http://localhost:3000/api/categories
-router.put('/', [], async (req, res, next) => {
+//http://localhost:3000/category/api/update-by-id?id
+router.put('/update-by-id', [], async (req, res, next) => {
     try {
-        const { _id, name } = req.body;
-        const category = {
-            _id: _id,
-            name: name 
+        const { id } = req.query;
+        const { name, type, image } = req.body;
+        const category = await categoryController.updateById(id, name, type, image)
+        if (category) {
+            return res.status(200).json({ message: "Update Success", result: true, category: category });
         }
-        return res.status(200).json(await categoryController.updateCategory(category));
+        return res.status(400).json({ result: false, category: null });
     } catch (error) {
         console.log(error)
-        return res.status(400).json({ error: error.message })
+        return res.status(500).json({ error: error.message })
     }
 })
 module.exports = router;
