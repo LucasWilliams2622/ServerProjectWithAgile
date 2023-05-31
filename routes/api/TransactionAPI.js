@@ -52,4 +52,34 @@ router.get('/search-by-note', async (req, res, next) => {
     }
 });
 
+//http://localhost:3000/transaction/api/searchIncome?type=
+router.get('/searchIncome', async (req, res, next) => {
+    try {
+        const { type } = req.query;
+        const transaction = await TransactionController.searchtotalIncome(type);
+        let totalIncome = ''
+        if(type == 1){
+            // totalIncome = ???
+            return res.status(200).json({ result: true, transaction: transaction });
+        }
+    } catch (error) {
+        console.log('Search Total Income error: ', error)
+        return res.status(500).json({ result: false, transaction: null });
+    }
+});
+
+//http://localhost:3000/transaction/api
+router.get('/searchExpense', async (req, res, next) => {
+    try {
+        const { category } = req.body;
+        console.log(category);
+        const transaction = await TransactionController.searchTotalExpense(category);
+        return res.status(200).json({ result: true, transaction: transaction });
+    } catch (error) {
+        console.log('Search Total Expense error: ', error)
+        return res.status(500).json({ result: false, transaction: null });
+    }
+});
+
+
 module.exports = router;

@@ -36,4 +36,21 @@ const searchProductByNote = async (note) => {
     return null;
 }
 
-module.exports = { searchTransactionById, searchProductByCategory, searchProductByMoney, searchProductByNote };
+const searchtotalIncome = async (type) => {
+    try {
+        return await TransactionService.searchtotalIncome(type);
+    } catch (error) {
+        console.log('Search Transaction By Note error: ', error);
+    }
+    return null;
+}
+const searchTotalExpense = async (category) => {
+    try {
+        return await TransactionService.searchTotalExpense(category);
+    } catch (error) {
+        console.log('Search Transaction By Note error: ', error);
+    }
+    return null;
+}
+
+module.exports = { searchTransactionById, searchProductByCategory, searchProductByMoney, searchProductByNote , searchTotalExpense, searchtotalIncome};
