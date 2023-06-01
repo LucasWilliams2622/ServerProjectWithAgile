@@ -51,15 +51,14 @@ router.post('/register', [], async (req, res, next) => {
 
 //http://localhost:3000/user/api/update
 router.put('/update', async (req, res, next) => {
-
     try {
         const { email, password, name, description,
-            gender, dob, avatar, role, createAt, updateAt, isLogin, isAble } = req.body;
+             avatar, role, createAt, updateAt, isLogin, isAble } = req.body;
         console.log(email, password, name, description,
-            gender, dob, avatar, role, createAt, updateAt, isLogin);
+            avatar, role, createAt, updateAt, isLogin);
 
         const user = await userController.updateUser(email, password, name, description,
-            gender, dob, avatar, role, createAt, updateAt, isLogin, isAble);
+            avatar, role, createAt, updateAt, isLogin, isAble);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Update Success" })
