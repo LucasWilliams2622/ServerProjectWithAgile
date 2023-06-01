@@ -62,5 +62,19 @@ const updateById = async (id, name, type, image) => {
   }
 }
 
-module.exports = { getCategories, newCategory, deleteById, updateById, getCategoryById };
+const searchByType = async (type) => {
+  try {
+    const category = await CategoryModel.find({ type: type })
+    console.log(category)
+    return category;
+
+  } catch (error) {
+    return false;
+  }
+}
+
+module.exports = {
+  getCategories, newCategory, deleteById,
+  updateById, getCategoryById, searchByType
+};
 

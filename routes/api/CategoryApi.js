@@ -77,4 +77,20 @@ router.put('/update-by-id', [], async (req, res, next) => {
         return res.status(500).json({ error: error.message })
     }
 })
+
+//http://localhost:3000/category/api/search-by-type
+router.get('/search-by-type', [], async (req, res, next) => {
+    try {
+        const { type } = req.query;
+        const category = await categoryController.searchByType(type)
+        if (category) {
+            return res.status(200).json({ message: "Update Success", result: true, category: category });
+        }
+        return res.status(400).json({ result: false, category: null });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: error.message })
+    }
+})
+
 module.exports = router;

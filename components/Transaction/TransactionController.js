@@ -1,10 +1,13 @@
 const TransactionService = require('./TransactionService');
 
-
-
-
-
-
+const getAll = async () => {
+    try {
+        return await TransactionService.getAll();
+    } catch (error) {
+        console.log('Add New Transaction error: ', error);
+    }
+    return null;
+}
 const addNew = async (money, note, category, idUser, createAt, updateAt) => {
     try {
         return await TransactionService.addNew(money, note, category, idUser, createAt, updateAt);
@@ -69,67 +72,44 @@ const searchTransactionByNote = async (note) => {
     return null;
 }
 
-
-const addNewTransaction = async (name, money, note, image, category, createAt, updateAt) => {
+const getAllMoney = async () => {
     try {
-        return await TransactionService.addNewTransaction(name, money, note, image, category, createAt, updateAt);
+        return await TransactionService.getAllMoney();
     } catch (error) {
-        console.log("error: ", error);
-        return false;
+        console.log('Search Transaction By Note error: ', error);
     }
     return null;
 }
-// const addNewTransaction = async (name, money, note, image, category) => {
-//     try {
-//         return await TransactionService.addNewTransaction(name, money, note, image, category);
-//     } catch (error) {
-//         console.log("error: ", error);
-//         throw error;
-//     }
-// }
-const getTransactions = async () => {
+
+const searchByDate = async (date) => {
     try {
-        return await TransactionService.getTransactions();
+        return await TransactionService.searchByDate(date);
     } catch (error) {
-        throw error;
+        console.log('Search Transaction By date error: ', error);
     }
+    return null;
 }
-const getTransactionById = async (transactionId) => {
+const searchByMonth = async (month) => {
     try {
-        return await TransactionService.getTransactionById(transactionId);
+        return await TransactionService.searchByMonth(month);
     } catch (error) {
-        throw error;
+        console.log('Search Transaction By month error: ', error);
     }
+    return null;
 }
-
-const deleteTransaction = async (transactionId) => {
+const searchByYear = async (year) => {
     try {
-        const result = await TransactionService.deleteTransaction(transactionId);
-        return result;
+        return await TransactionService.searchByYear(year);
+    } catch (error) {
+        console.log('Search Transaction By year error: ', error);
     }
-    catch (error) {
-        console.log(error);
-        throw error;
-    }
+    return null;
 }
-
-const updateTransaction = async (transaction) => {
-    try {
-        const oldTransaction = TransactionService.getTransactionById(transaction._id);
-        transaction = {
-            ...oldTransaction, ...transaction
-        }
-        const result = await TransactionService.updateTransaction(transaction);
-        return result;
-    }
-    catch (error) {
-        console.log(error);
-        throw error;
-    }
-}
-
 
 module.exports = {
-    addNew, deleteById, editById, searchTransactionById,
-    searchTransactionByCategory, searchTransactionByMoney, searchTransactionByNote
+    getAll, addNew, deleteById, editById,
+    searchTransactionById, getAllMoney, searchTransactionByCategory,
+    searchTransactionByMoney, searchTransactionByNote, searchByDate,
+    searchByMonth,searchByYear,
+
 };

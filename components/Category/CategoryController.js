@@ -48,4 +48,17 @@ const updateById = async (id, name, type, image) => {
         return false;
     }
 }
-module.exports = { getCategories, newCategory, deleteById, updateById, getCategoryById };
+const searchByType = async (type) => {
+    try {
+        return await categoryService.searchByType(type);
+
+    } catch (error) {
+        return false;
+    }
+}
+
+module.exports = {
+    getCategories, newCategory, deleteById,
+    updateById, getCategoryById, searchByType,
+   
+};

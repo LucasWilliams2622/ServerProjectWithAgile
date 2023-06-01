@@ -1,6 +1,33 @@
 const TransactionModel = require('./TransactionModel');
 
+const getAll = async () => {
+    try {
+        let transaction = await TransactionModel.find({}, 'money note category createAt updateAt')
+            .populate('category', 'name type');
+        let totalIncome = 0;
+        let totalExpense = 0;
 
+        for (let i = 0; i < transaction.length; i++) {
+            const category = transaction[i].category;
+            const money = transaction[i].money;
+            if (category.type) {
+                totalExpense += money;
+            } else {
+                totalIncome += money;
+            }
+        }
+
+        let totalMoney = totalIncome - totalExpense
+        console.log("Total income: " + totalIncome);
+        console.log("Total expense: " + totalExpense);
+        console.log("Total money: " + totalMoney);
+
+        return transaction
+    } catch (error) {
+        console.log('Search Transaction By Money: ', error);
+        return null;
+    }
+}
 const addNew = async (money, note, category, idUser, createAt, updateAt) => {
     try {
         const newTransaction = { money, note, category, idUser, createAt, updateAt }
@@ -23,7 +50,7 @@ const deleteById = async (id) => {
     }
 }
 
-const editById = async (id,money, note, category, idUser, createAt, updateAt) => {
+const editById = async (id, money, note, category, idUser, createAt, updateAt) => {
     try {
         const transaction = await TransactionModel.findById(id)
         if (transaction) {
@@ -63,7 +90,7 @@ const searchTransactionByCategory = async (category) => {
 const searchTransactionByMoney = async (money) => {
     try {
         // return await TransactionModel.find({ money: { $regex: money, $options: 'i' } });
-        return await TransactionModel.find({money});
+        return await TransactionModel.find({ money });
     } catch (error) {
         console.log('Search Transaction By Money: ', error);
         return null;
@@ -73,8 +100,21 @@ const searchTransactionByMoney = async (money) => {
 const searchTransactionByNote = async (note) => {
     try {
         // return await TransactionModel.find({ note: { $regex: note, $options: 'i' } });
-        return await TransactionModel.find({note});
+        return await TransactionModel.find({ note });
 
+    } catch (error) {
+        console.log('Search Transaction By Note: ', error);
+        return null;
+    }
+}
+const getAllMoney = async () => {
+    try {
+        // return await TransactionModel.find({ note: { $regex: note, $options: 'i' } });
+        const transactions = await TransactionModel.find({}, 'money')
+        const totalMoney = transactions.
+            reduce((accumulator, currentValue) => accumulator + currentValue.money, 0);
+        console.log(totalMoney); // Kết quả sẽ là 27642
+        return totalMoney;
     } catch (error) {
         console.log('Search Transaction By Note: ', error);
         return null;
@@ -82,71 +122,61 @@ const searchTransactionByNote = async (note) => {
 }
 
 
-
-
-
-const searchTransactionByDate = async (createAt) => {
+const searchByDate = async (createAt) => {
     try {
-        return await TransactionModel.find(createAt);
+        const startDate = createAt + 'T00:00:00.000Z';
+        const endDate = createAt + 'T23:59:59.999Z';
+        return await TransactionModel.find({
+            createAt: {
+                $gte: startDate,
+                $lte: endDate,
+            },
+        });
     } catch (error) {
         console.log('Search Transaction By Id: ', error);
         return null;
     }
 }
 
-const searchTransactionByMounth = async (createAt) => {
+const searchByMonth = async (month) => {
     try {
-        return await TransactionModel.find(createAt);
+        const startDate = month + '-01T00:00:00.000Z';
+        const endDate = month + '-31T23:59:59.999Z';
+        const transactions = await TransactionModel.find({
+            createAt: {
+                $gte: startDate,
+                $lte: endDate,
+            },
+        });
+        return transactions
     } catch (error) {
         console.log('Search Transaction By Id: ', error);
         return null;
     }
 }
 
-//http://localhost:3000/api/transactions/new
-//them moi giao dich
-const addNewTransaction = async (name, money, note, image, category, createAt, updateAt) => {
+const searchByYear= async (year) => {
     try {
-        const newTransaction = { name, money, note, image, category, createAt, updateAt };
-        const trans = new TransactionModel(newTransaction);
-        await trans.save();
-        return true;
+        const startDate = year + '-01-01T00:00:00.000Z';
+        const endDate = year + '-12-31T23:59:59.999Z';
+        const transactions = await TransactionModel.find({
+            createAt: {
+                $gte: startDate,
+                $lte: endDate,
+            },
+        });
+        return transactions
     } catch (error) {
         console.log('Search Transaction By Id: ', error);
         return null;
     }
 }
 
-const searchtotalIncome = async (type) => {
-    try {
-        return await TransactionModel.find({ type: type }).populate('Incomne');
-    } catch (error) {
-        console.log('Search search Total Income: ', error);
-        return null;
-    }
-}
-    ;
-// const searchTotalExpense = async (category) => {
-//     try {
-//         const a = await TransactionModel
-//         .find({},'category')
-//         .populate("category", 'type');
 
-//         console.log("=====================>",a);
-//         return true
-
-//     } catch (error) {
-//         console.log('Search Total Expense: ', error);
-//         return null;
-//     }
-// }
 module.exports = {
-    addNew,deleteById,editById,
+    addNew, deleteById, editById, getAll, getAllMoney,
+    searchTransactionById, searchTransactionByCategory,
+    searchTransactionByMoney, searchTransactionByNote,
+    searchByDate, searchByMonth,searchByYear,
 
-
-
-
-    searchTransactionById, searchTransactionByCategory, searchTransactionByMoney,
-    searchTransactionByNote, searchTransactionByDate, searchTransactionByMounth,
-    searchtotalIncome
 };
