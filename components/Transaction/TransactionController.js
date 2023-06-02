@@ -8,6 +8,7 @@ const getAll = async () => {
     }
     return null;
 }
+
 const addNew = async (money, note, category, idUser, createAt, updateAt) => {
     try {
         return await TransactionService.addNew(money, note, category, idUser, createAt, updateAt);
@@ -105,11 +106,18 @@ const searchByYear = async (year) => {
     }
     return null;
 }
+const getAllTransaction = async (page,size) =>{
+    try {
+        return await TransactionService.getAllTransaction(page,size);
+    } catch (error) {
+        throw error;
+    }
+}
 
 module.exports = {
     getAll, addNew, deleteById, editById,
     searchTransactionById, getAllMoney, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote, searchByDate,
-    searchByMonth,searchByYear,
+    searchByMonth,searchByYear,getAllTransaction
 
 };
