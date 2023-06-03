@@ -9,6 +9,21 @@ const login = async (email, password) => {
         return false;
     }
 }
+const loginGG = async (email) => {
+    try {
+        return await UserService.loginGG(email);
+    } catch (error) {
+        return false;
+    }
+}
+
+const registerGG = async (email, name, avatar) => {
+    try {
+        return await UserService.registerGG(email, name, avatar);
+    } catch (error) {
+        return false;
+    }
+}
 const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
     try {
         return await UserService.register(email, password, name, description, avatar, role, createAt,
@@ -640,7 +655,7 @@ const sendMailForNewAccount = async (to) => {
     return false;
 };
 module.exports = {
-    login, register, deleteUser,
+    login, loginGG, registerGG, register, deleteUser,
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
     verifyCode, disableAccount, sendMailForNewAccount

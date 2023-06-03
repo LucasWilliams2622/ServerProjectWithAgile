@@ -14,6 +14,41 @@ const login = async (email, password) => {
         return false;
     }
 }
+//http://localhost:3000/api/user/loginGG
+const loginGG = async (email) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            return user;
+        } else {
+            const newUser = { email };
+            const u = new UserModel(newUser);
+            await u.save();
+            return u;
+        }
+    } catch (error) {
+        console.log('LoginGG error' + error)
+        return false;
+    }
+}
+
+//http://localhost:3000/api/user/registerGG
+const registerGG = async (email, avatar , name) =>{
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user == null) {
+            const newUser = { email, avatar, name};
+            const u = new UserModel(newUser);
+            await u.save();
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.log("RegisterGG error" + error)
+        return false;
+    }
+}
 //http://localhost:3000/api/user/register
 const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
     try {
@@ -151,6 +186,6 @@ const disableAccount = async (email, isAble) => {
     }
 }
 module.exports = {
-    login, register, deleteUser,
+    login, loginGG, registerGG, register, deleteUser,
     updateUser, getAllUser, search, changePassword, disableAccount
 };
