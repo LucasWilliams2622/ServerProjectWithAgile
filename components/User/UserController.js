@@ -1,4 +1,3 @@
-
 const UserService = require('./UserService');
 const UserModel = require('./UserModel')
 const mailer = require('nodemailer')
@@ -9,17 +8,17 @@ const login = async (email, password) => {
         return false;
     }
 }
-const loginGG = async (email) => {
+const loginGoogle = async (email) => {
     try {
-        return await UserService.loginGG(email);
+        return await UserService.loginGoogle(email);
     } catch (error) {
         return false;
     }
 }
 
-const registerGG = async (email, name, avatar) => {
+const registerGoogle = async (email, name, avatar) => {
     try {
-        return await UserService.registerGG(email, name, avatar);
+        return await UserService.registerGoogle(email, name, avatar);
     } catch (error) {
         return false;
     }
@@ -655,7 +654,7 @@ const sendMailForNewAccount = async (to) => {
     return false;
 };
 module.exports = {
-    login, loginGG, registerGG, register, deleteUser,
+    login, loginGoogle, registerGoogle, register, deleteUser,
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
     verifyCode, disableAccount, sendMailForNewAccount

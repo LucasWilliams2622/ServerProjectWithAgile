@@ -71,6 +71,7 @@ app.use('/category/api', CategoryApiRouter);
 
 // http://localhost:3000/transaction/api
 app.use('/transaction/api', TransactionAPIRouter);
+
 // http://localhost:3000/managerTransaction/api
 app.use('/managerTransaction/api', ManagerTransactionAPIRouter);
   

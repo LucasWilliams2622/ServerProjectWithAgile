@@ -14,30 +14,30 @@ const login = async (email, password) => {
         return false;
     }
 }
-//http://localhost:3000/api/user/loginGG
-const loginGG = async (email) => {
+//http://localhost:3000/api/user/loginGoogle
+const loginGoogle = async (email) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
-            return user;
+            return true;
         } else {
             const newUser = { email };
-            const u = new UserModel(newUser);
-            await u.save();
-            return u;
+            const user = new UserModel(newUser);
+            await user.save();
+            return user;
         }
     } catch (error) {
-        console.log('LoginGG error' + error)
+        console.log('loginGoogle error' + error)
         return false;
     }
 }
 
-//http://localhost:3000/api/user/registerGG
-const registerGG = async (email, avatar , name) =>{
+//http://localhost:3000/api/user/registerGoogle
+const registerGoogle = async (email, avatar, name) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user == null) {
-            const newUser = { email, avatar, name};
+            const newUser = { email, avatar, name };
             const u = new UserModel(newUser);
             await u.save();
             return true;
@@ -45,12 +45,12 @@ const registerGG = async (email, avatar , name) =>{
             return false;
         }
     } catch (error) {
-        console.log("RegisterGG error" + error)
+        console.log("registerGoogle error" + error)
         return false;
     }
 }
 //http://localhost:3000/api/user/register
-const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
+const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode, isAble) => {
     try {
         console.log("QQQQ", email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode)
@@ -61,7 +61,7 @@ const register = async (email, password, name, description, avatar, role, create
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(password, salt);
 
-            const newUser = { email, password: hash, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble };
+            const newUser = { email, password: hash, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode, isAble };
             const u = new UserModel(newUser);
             await u.save();
             return true;
@@ -186,6 +186,6 @@ const disableAccount = async (email, isAble) => {
     }
 }
 module.exports = {
-    login, loginGG, registerGG, register, deleteUser,
+    login, loginGoogle, registerGoogle, register, deleteUser,
     updateUser, getAllUser, search, changePassword, disableAccount
 };

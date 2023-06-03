@@ -28,30 +28,29 @@ router.post('/login', async (req, res, next) => {
             .json({ result: false, message: 'Error System' })
     }
 })
-    //http://localhost:3000/user/api/loginGG
-    > router.post('loginGG', async (req, res, next) => {
-        try {
-            const { email } = req.body;
-            const user = await userController.loginGG(email);
-            if (user) {
-                return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
-            }
-            return res.status(400).json({ result: false, user: null, token: null, message: "Login Failed" });
-        } catch (error) {
-            return res.status(500)
-                .json({ result: false, message: 'Error System' })
+//http://localhost:3000/user/api/loginGoogle
+router.post('/loginGoogle', async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const user = await userController.loginGoogle(email);
+        if (user) {
+            return res.status(200).json({ result: true, user: user, message: "Login Google Success" });
         }
-    });
+        return res.status(400).json({ result: false, user: null, token: null, message: "Login Google Failed" });
+    } catch (error) {
+        return res.status(500).json({ result: false, message: 'Error System' })
+    }
+});
 
-//http://localhost:3000/user/api/registerGG
-router.post('/registerGG', async (req, res, next) => {
+//http://localhost:3000/user/api/registerGoogle
+router.post('/registerGoogle', async (req, res, next) => {
     try {
         const { email, name, avatar } = req.body;
-        const user = await userController.registerGG(email, name, avatar);
+        const user = await userController.registerGoogle(email, name, avatar);
         if (user) {
-            return res.status(200).json({ result: true, user: user, message: "Register Success" });
+            return res.status(200).json({ result: true, user: user, message: "Register Google Success" });
         }
-        return res.status(400).json({ result: false, user: null, message: "Register Failed" });
+        return res.status(400).json({ result: false, user: null, message: "Register  Google Failed" });
     } catch (error) {
         return res.status(500).json({ result: false, user: null });
     }

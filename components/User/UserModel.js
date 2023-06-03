@@ -13,8 +13,8 @@ const userSchema = new Schema({
   id: { type: ObjectId },
   name: { type: String, },
   email: { type: String, default: "", unique: true },
-  description:{type:String},
-  password: { type: String, required: true },
+  description:{type:String,default:""},
+  password: { type: String },
 
   avatar: { type: String, default: "" },
   role: { type: Number, default: 1 },
