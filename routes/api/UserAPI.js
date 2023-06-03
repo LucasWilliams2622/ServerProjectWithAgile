@@ -31,8 +31,9 @@ router.post('/login', async (req, res, next) => {
 //http://localhost:3000/user/api/loginGoogle
 router.post('/loginGoogle', async (req, res, next) => {
     try {
-        const { email } = req.body;
-        const user = await userController.loginGoogle(email);
+        const { email, name, avatar } = req.body;
+
+        const user = await userController.loginGoogle(email, name, avatar);
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Login Google Success" });
         }
@@ -42,19 +43,7 @@ router.post('/loginGoogle', async (req, res, next) => {
     }
 });
 
-//http://localhost:3000/user/api/registerGoogle
-router.post('/registerGoogle', async (req, res, next) => {
-    try {
-        const { email, name, avatar } = req.body;
-        const user = await userController.registerGoogle(email, name, avatar);
-        if (user) {
-            return res.status(200).json({ result: true, user: user, message: "Register Google Success" });
-        }
-        return res.status(400).json({ result: false, user: null, message: "Register  Google Failed" });
-    } catch (error) {
-        return res.status(500).json({ result: false, user: null });
-    }
-});
+
 //http://localhost:3000/user/api/register
 router.post('/register', [], async (req, res, next) => {
     try {
@@ -257,6 +246,16 @@ router.post('/login2', async (req, res, next) => {
             .json({ result: false, message: 'Error System' })
     }
 })
+
+//http://localhost:3000/user/api/logout
+router.put('/logout', async (req, res, next) => {
+    try {
+        res.clearCookie('jwt');
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ result: false, user: null })
+    }
+});
 
 module.exports = router;
 

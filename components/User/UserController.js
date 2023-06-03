@@ -8,21 +8,15 @@ const login = async (email, password) => {
         return false;
     }
 }
-const loginGoogle = async (email) => {
+const loginGoogle = async ( email, name, avatar) => {
     try {
-        return await UserService.loginGoogle(email);
+        return await UserService.loginGoogle( email, name, avatar);
     } catch (error) {
         return false;
     }
 }
 
-const registerGoogle = async (email, name, avatar) => {
-    try {
-        return await UserService.registerGoogle(email, name, avatar);
-    } catch (error) {
-        return false;
-    }
-}
+
 const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
     try {
         return await UserService.register(email, password, name, description, avatar, role, createAt,
@@ -654,7 +648,7 @@ const sendMailForNewAccount = async (to) => {
     return false;
 };
 module.exports = {
-    login, loginGoogle, registerGoogle, register, deleteUser,
+    login, loginGoogle, register, deleteUser,
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
     verifyCode, disableAccount, sendMailForNewAccount
