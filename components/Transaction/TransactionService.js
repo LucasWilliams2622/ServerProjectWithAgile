@@ -172,11 +172,21 @@ const searchByYear= async (year) => {
     }
 }
 
+const getAllTransaction = async (page, size) => {
+    try {
+      // return data;
+      return await TransactionModel.find().populate('id','');
+    } catch (error) {
+      console.log('get all transaction error:', error);
+      throw error;
+    }
+  }
+
 
 module.exports = {
     addNew, deleteById, editById, getAll, getAllMoney,
     searchTransactionById, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote,
-    searchByDate, searchByMonth,searchByYear,
+    searchByDate, searchByMonth,searchByYear,getAllTransaction
 
 };

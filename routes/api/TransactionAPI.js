@@ -171,5 +171,18 @@ router.get('/search-by-year', [], async (req, res, next) => {
         return res.status(500).json({ error: error.message })
     }
 })
+//http://localhost:3000/transaction/api/get-all-transaction
+router.get('/get-all-transaction' ,async(req,res,next)=>{
+    try {
+        const transaction=await TransactionController.getAllTransaction();
+
+       
+
+        return res.status(200).json({result:true,transaction:transaction});
+    } catch (error) {
+        return res.status(500).json({result:false,transaction:null});
+        
+    }
+});
 // 2023-06-01
 module.exports = router;
