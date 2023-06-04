@@ -137,6 +137,25 @@ const searchByDate = async (createAt) => {
         return null;
     }
 }
+const searchByRecent = async (createAt) => {
+    try {
+        const startDate = createAt + 'T00:00:00.000Z';
+        let endYear = createAt.slice(0, 4)
+        let endMonth = createAt.slice(5, 7)
+        let endDay = parseInt(createAt.slice(8, 10)) + 3;
+        endDay = endDay < 10 ? "0" + endDay : endDay
+        const endDate = endYear + "-" + endMonth + "-" + endDay + 'T23:59:59.999Z';
+        return await TransactionModel.find({
+            createAt: {
+                $gte: startDate,
+                $lte: endDate,
+            },
+        });
+    } catch (error) {
+        console.log('Search Transaction By Id: ', error);
+        return null;
+    }
+}
 
 const searchByMonth = async (month) => {
     try {
@@ -155,7 +174,7 @@ const searchByMonth = async (month) => {
     }
 }
 
-const searchByYear= async (year) => {
+const searchByYear = async (year) => {
     try {
         const startDate = year + '-01-01T00:00:00.000Z';
         const endDate = year + '-12-31T23:59:59.999Z';
@@ -174,19 +193,20 @@ const searchByYear= async (year) => {
 
 const getAllTransaction = async (page, size) => {
     try {
-      // return data;
-      return await TransactionModel.find().populate('id','');
+        // return data;
+        return await TransactionModel.find().populate('id', '');
     } catch (error) {
-      console.log('get all transaction error:', error);
-      throw error;
+        console.log('get all transaction error:', error);
+        throw error;
     }
-  }
+}
 
 
 module.exports = {
     addNew, deleteById, editById, getAll, getAllMoney,
     searchTransactionById, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote,
-    searchByDate, searchByMonth,searchByYear,getAllTransaction
+    searchByDate, searchByMonth, searchByYear, getAllTransaction,
+    searchByRecent,
 
 };
