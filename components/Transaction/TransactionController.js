@@ -90,6 +90,15 @@ const searchByDate = async (date) => {
     }
     return null;
 }
+const searchByRecent = async (date) => {
+    try {
+        return await TransactionService.searchByRecent(date);
+    } catch (error) {
+        console.log('Search Transaction By date error: ', error);
+    }
+    return null;
+}
+
 const searchByMonth = async (month) => {
     try {
         return await TransactionService.searchByMonth(month);
@@ -118,6 +127,6 @@ module.exports = {
     getAll, addNew, deleteById, editById,
     searchTransactionById, getAllMoney, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote, searchByDate,
-    searchByMonth,searchByYear,getAllTransaction
+    searchByMonth,searchByYear,getAllTransaction,searchByRecent
 
 };

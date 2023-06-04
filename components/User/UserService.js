@@ -20,11 +20,14 @@ const loginGoogle = async (email, avatar, name) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
+            user.isLogin = true;
             return true;
         } else {
             const newUser = { email, avatar, name };
             const u = new UserModel(newUser);
             await u.save();
+            user.isLogin = true;
+
             return true;
         }
     } catch (error) {
