@@ -18,6 +18,14 @@ const addNew = async (money, note, category, idUser, createAt, updateAt) => {
     return null;
 }
 
+const getTransactionById = async (id) => {
+    try {
+        return await TransactionService.getTransactionById(id);
+    } catch (error) {
+        console.log('Get Transaction By Id error: ', error);
+    }
+    return null;
+}
 
 const deleteById = async (id) => {
     try {
@@ -118,6 +126,6 @@ module.exports = {
     getAll, addNew, deleteById, editById,
     searchTransactionById, getAllMoney, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote, searchByDate,
-    searchByMonth,searchByYear,getAllTransaction
+    searchByMonth,searchByYear,getAllTransaction, getTransactionById
 
 };

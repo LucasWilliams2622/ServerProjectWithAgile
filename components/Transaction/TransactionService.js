@@ -28,6 +28,7 @@ const getAll = async () => {
         return null;
     }
 }
+
 const addNew = async (money, note, category, idUser, createAt, updateAt) => {
     try {
         const newTransaction = { money, note, category, idUser, createAt, updateAt }
@@ -69,6 +70,15 @@ const editById = async (id, money, note, category, idUser, createAt, updateAt) =
     }
 }
 
+const getTransactionById = async (id) => {
+    try {
+        return await TransactionModel.findById(id);
+    } catch (error) {
+        console.log('Get Transaction By Id: ', error);
+        return null;
+    }
+}
+
 const searchTransactionById = async (id) => {
     try {
         return await TransactionModel.findById(id);
@@ -107,6 +117,7 @@ const searchTransactionByNote = async (note) => {
         return null;
     }
 }
+
 const getAllMoney = async () => {
     try {
         // return await TransactionModel.find({ note: { $regex: note, $options: 'i' } });
@@ -120,7 +131,6 @@ const getAllMoney = async () => {
         return null;
     }
 }
-
 
 const searchByDate = async (createAt) => {
     try {
@@ -155,7 +165,7 @@ const searchByMonth = async (month) => {
     }
 }
 
-const searchByYear= async (year) => {
+const searchByYear = async (year) => {
     try {
         const startDate = year + '-01-01T00:00:00.000Z';
         const endDate = year + '-12-31T23:59:59.999Z';
@@ -174,19 +184,20 @@ const searchByYear= async (year) => {
 
 const getAllTransaction = async (page, size) => {
     try {
-      // return data;
-      return await TransactionModel.find().populate('id','');
+        // return data;
+        return await TransactionModel.find().populate('id', '');
     } catch (error) {
-      console.log('get all transaction error:', error);
-      throw error;
+        console.log('get all transaction error:', error);
+        throw error;
     }
-  }
+}
 
 
 module.exports = {
     addNew, deleteById, editById, getAll, getAllMoney,
     searchTransactionById, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote,
-    searchByDate, searchByMonth,searchByYear,getAllTransaction
+    searchByDate, searchByMonth, searchByYear, getAllTransaction,
+    getTransactionById
 
 };

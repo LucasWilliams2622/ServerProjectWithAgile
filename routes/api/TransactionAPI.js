@@ -36,6 +36,21 @@ router.post('/add-new', async (req, res, next) => {
     }
 });
 
+//http://localhost:3000/transaction/api/get-by-id
+router.get('/get-by-id', async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const transaction = await TransactionController.getTransactionById(id);
+        if (transaction) {
+            return res.status(200).json({ message: "Get Transaction By Id success", result: true, transaction: transaction });
+        }
+        return res.status(400).json({ message: "Get Transaction By Id failed", result: false, transaction: transaction });
+    } catch (error) {
+        console.log('Search Transaction by Id error: ', error)
+        return res.status(500).json({ result: false, transaction: null });
+    }
+});
+
 //http://localhost:3000/transaction/api/delete-by-id
 router.delete('/delete-by-id', async (req, res, next) => {
     try {
@@ -60,7 +75,7 @@ router.put('/edit-by-id', async (req, res, next) => {
         if (transaction) {
             return res.status(200).json({ message: "Edit success", result: true, transaction: transaction });
         }
-        return res.status(400).json({ message: "Delete failed", result: false, transaction: transaction });
+        return res.status(400).json({ message: "Edit failed", result: false, transaction: transaction });
     } catch (error) {
         console.log('Search Transaction by Id error: ', error)
         return res.status(500).json({ result: false, transaction: null });
