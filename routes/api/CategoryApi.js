@@ -9,7 +9,7 @@ router.post('/new', [upLoadImage.single('image')], async (req, res, next) => {
     try {
         let { body, file } = req;
         if (file) {
-            file = `http://192.168.0.104:3000/images/${file.filename}`;
+            file = `http://10.0.2.2:3000/images/${file.filename}`;
             body = { ...body, image: file };
         }
         const { name, type, image } = body;
