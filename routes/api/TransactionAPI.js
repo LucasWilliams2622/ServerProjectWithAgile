@@ -147,7 +147,7 @@ router.get('/get-all-money', [], async (req, res, next) => {
 //http://localhost:3000/transaction/api/search-by-date
 router.get('/search-by-date', [], async (req, res, next) => {
     try {
-        const { date } = req.body
+        const { date } = req.query;
         const transaction = await TransactionController.searchByDate(date)
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
@@ -161,6 +161,7 @@ router.get('/search-by-date', [], async (req, res, next) => {
 //http://localhost:3000/transaction/api/search-by-recent
 router.get('/search-by-recent', [], async (req, res, next) => {
     try {
+        // const { date } = req.body
         const { date } = req.query
         const transaction = await TransactionController.searchByRecent(date)
         if (transaction) {
