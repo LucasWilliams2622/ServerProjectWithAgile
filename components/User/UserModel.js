@@ -23,9 +23,15 @@ const userSchema = new Schema({
     
   isVerified: { type: Boolean , default: false},
   verificationCode: { type: String , default:000000},
+  isAble:{type:Boolean,default:true},
+  
   createAt: { type: Date, default: Date.now },
   updateAt:{ type: Date, default: Date.now },
-  isAble:{type:Boolean,default:true},
+  limit : {type: Number},
+  totalIncome : {type: Number},
+  totalExpense : {type: Number},
+  totalMoney : {type: Number},
+
 });
 
 module.exports = mongoose.models.user || mongoose.model('User', userSchema);

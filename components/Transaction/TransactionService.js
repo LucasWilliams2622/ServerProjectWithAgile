@@ -1,5 +1,6 @@
 const TransactionModel = require('./TransactionModel');
 
+
 const getAll = async () => {
     try {
         let transaction = await TransactionModel.find({}, 'money note category createAt updateAt')
