@@ -19,6 +19,23 @@ router.get('/get-all', async (req, res, next) => {
     }
 });
 
+//http://localhost:3000/transaction/api/delete-all
+router.delete('/delete-all', async (req, res, next) => {
+    try {
+        const { idUser } = req.query;
+        console.log(idUser);
+        const transaction = await TransactionController.deleteAll(idUser);
+        console.log(">>>>>>>>>>>>>>>>>>>>", transaction);
+        if (transaction) {
+            return res.status(200).json({ message: "Delete all success", result: true, transaction: transaction });
+        }
+        return res.status(400).json({ message: "Delete all failed", result: false, transaction: transaction });
+    } catch (error) {
+        console.log('Delete Transaction All error: ', error)
+        return res.status(500).json({ result: false, transaction: null });
+    }
+});
+
 //http://localhost:3000/transaction/api/add-new
 router.post('/add-new', async (req, res, next) => {
     try {
@@ -51,7 +68,7 @@ router.get('/get-by-id', async (req, res, next) => {
     }
 });
 
-//http://localhost:3000/transaction/api/delete-by-id
+//http://localhost:3000/transaction/api/delete-by-id?id=
 router.delete('/delete-by-id', async (req, res, next) => {
     try {
         const { id } = req.query;
@@ -202,16 +219,16 @@ router.get('/search-by-year', [], async (req, res, next) => {
     }
 })
 //http://localhost:3000/transaction/api/get-all-transaction
-router.get('/get-all-transaction' ,async(req,res,next)=>{
+router.get('/get-all-transaction', async (req, res, next) => {
     try {
-        const transaction=await TransactionController.getAllTransaction();
+        const transaction = await TransactionController.getAllTransaction();
 
-       
 
-        return res.status(200).json({result:true,transaction:transaction});
+
+        return res.status(200).json({ result: true, transaction: transaction });
     } catch (error) {
-        return res.status(500).json({result:false,transaction:null});
-        
+        return res.status(500).json({ result: false, transaction: null });
+
     }
 });
 module.exports = router;
