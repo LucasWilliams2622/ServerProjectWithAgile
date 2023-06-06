@@ -46,7 +46,19 @@ router.get('/get-by-id', [], async (req, res, next) => {
         return res.status(500).json({ error: error })
     }
 })
-
+//http://localhost:3000/category/api/get-by-name?
+router.get('/get-by-name', [], async (req, res, next) => {
+    try {
+        const { name } = req.query;
+        const category = await categoryController.getCategoryByName(name)
+        if (category) {
+            return res.status(200).json({ result: true, category: category });
+        }
+        return res.status(400).json({ result: false, category: null });
+    } catch (error) {
+        return res.status(500).json({ error: error })
+    }
+})
 //http://localhost:3000/category/api/delete-by-id
 router.delete('/delete-by-id', [], async (req, res, next) => {
     try {

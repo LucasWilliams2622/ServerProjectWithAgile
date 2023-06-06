@@ -62,9 +62,9 @@ const searchTransactionById = async (id) => {
     return null;
 }
 
-const searchTransactionByCategory = async (category) => {
+const searchTransactionByCategory = async (idUser, category) => {
     try {
-        return await TransactionService.searchTransactionByCategory(category);
+        return await TransactionService.searchTransactionByCategory(idUser, category);
     } catch (error) {
         console.log('Search Transaction By Category error: ', error);
     }
@@ -131,9 +131,9 @@ const searchByYear = async (year) => {
     }
     return null;
 }
-const getAllTransaction = async (page,size) =>{
+const getAllTransaction = async (idUser) => {
     try {
-        return await TransactionService.getAllTransaction(page,size);
+        return await TransactionService.getAllTransaction(idUser);
     } catch (error) {
         throw error;
     }
@@ -143,7 +143,7 @@ module.exports = {
     getAll, addNew, deleteById, editById,
     searchTransactionById, getAllMoney, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote, searchByDate,
-    searchByMonth,searchByYear,getAllTransaction,searchByRecent,
+    searchByMonth, searchByYear, getAllTransaction, searchByRecent,
     getTransactionById, deleteAll
 
 };

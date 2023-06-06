@@ -18,6 +18,13 @@ const getCategoryById = async (id) => {
         return null;
     }
 }
+const getCategoryByName = async (name) => {
+    try {
+        return await categoryService.getCategoryByName(name);
+    } catch (error) {
+        return null;
+    }
+}
 
 const newCategory = async (name, type, image) => {
     try {
@@ -60,5 +67,6 @@ const searchByType = async (type) => {
 module.exports = {
     getCategories, newCategory, deleteById,
     updateById, getCategoryById, searchByType,
+    getCategoryByName,
    
 };

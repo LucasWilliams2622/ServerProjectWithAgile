@@ -1,4 +1,5 @@
 const TransactionModel = require('./TransactionModel');
+const CategoryModel = require('../Category/CategoryService');
 
 
 const getAll = async (idUser) => {
@@ -83,7 +84,6 @@ const deleteById = async (id) => {
     }
 }
 
-
 const editById = async (id, money, note, category, idUser, createAt, updateAt) => {
     try {
         const transaction = await TransactionModel.findById(id)
@@ -121,9 +121,26 @@ const searchTransactionById = async (id) => {
     }
 }
 
-const searchTransactionByCategory = async (category) => {
+const searchTransactionByCategory = async (idUser, category) => {
     try {
-        return await TransactionModel.find({ category: { $regex: category, $options: 'i' } });
+        const user = await TransactionModel.findOne({ idUser: idUser }).populate('category', 'name type')
+        console.log("==============>", user);
+        if(user){
+            const category = await CategoryModel.find({ name:"Đồ uống" })
+            console.log(category)
+        }
+        const category = await CategoryModel.find({ name:"Đồ uống" })
+        console.log(category)
+
+        return user
+
+        // if (user != null) {
+        //     const transaction = await TransactionModel.find({ category: { $regex: category, $options: 'i' } });
+        //     console.log(transaction);
+        //     return transaction
+        // } else {
+        //     return false
+        // }
     } catch (error) {
         console.log('Search Transaction By Category: ', error);
         return null;
@@ -234,10 +251,23 @@ const searchByYear = async (year) => {
     }
 }
 
-const getAllTransaction = async (page, size) => {
+const getAllTransaction = async (idUser) => {
     try {
         // return data;
-        return await TransactionModel.find().populate('id', '');
+        // return await TransactionModel.find({},"_id  money  note category idUser createAt").
+        // populate('category', 'type name');
+        const user = await TransactionModel.findOne({ idUser: idUser })
+        console.log(user);
+        if (user != null) {
+            const transaction = await TransactionModel.find({}, "_id money note category idUser createAt")
+                .populate('category', 'name type')
+            console.log(transaction);
+
+            return transaction
+        } else {
+            return false
+        }
+
     } catch (error) {
         console.log('get all transaction error:', error);
         throw error;

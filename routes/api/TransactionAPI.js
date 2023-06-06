@@ -6,7 +6,7 @@ const TransactionController = require('../../components/Transaction/TransactionC
 //http://localhost:3000/transaction/api/get-all-transaction-by-idUser?idUser=
 router.get('/get-all-transaction-by-idUser', async (req, res, next) => {
     try {
-        const {idUser}= req.query;
+        const { idUser } = req.query;
         const transaction = await TransactionController.getAll(idUser);
 
         if (transaction) {
@@ -116,15 +116,18 @@ router.get('/search-by-id', async (req, res, next) => {
 //http://localhost:3000/transaction/api/search-by-category?category=
 router.get('/search-by-category', async (req, res, next) => {
     try {
-        const { category } = req.query;
-        const transaction = await TransactionController.searchTransactionByCategory(category);
-        return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
+        const { idUser, category } = req.query
+
+        const transaction = await TransactionController.searchTransactionByCategory(idUser, category);
+        if (transaction) {
+            return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
+        }
+        return res.status(400).json({ result: false, transaction: null });
     } catch (error) {
         console.log('Search Transaction by Category error: ', error)
         return res.status(500).json({ result: false, transaction: null });
     }
 });
-
 //http://localhost:3000/transaction/api/search-by-money?money=
 router.get('/search-by-money', async (req, res, next) => {
     try {
@@ -136,7 +139,6 @@ router.get('/search-by-money', async (req, res, next) => {
         return res.status(500).json({ result: false, transaction: null });
     }
 });
-
 //http://localhost:3000/transaction/api/search-by-note?note=
 router.get('/search-by-note', async (req, res, next) => {
     try {
@@ -161,7 +163,6 @@ router.get('/get-all-money', [], async (req, res, next) => {
         return res.status(500).json({ error: error.message })
     }
 })
-
 //http://localhost:3000/transaction/api/search-by-date
 router.get('/search-by-date', [], async (req, res, next) => {
     try {
@@ -222,11 +223,12 @@ router.get('/search-by-year', [], async (req, res, next) => {
 //http://localhost:3000/transaction/api/get-all-transaction
 router.get('/get-all-transaction', async (req, res, next) => {
     try {
-        const transaction = await TransactionController.getAllTransaction();
-
-
-
-        return res.status(200).json({ result: true, transaction: transaction });
+        const { idUser } = req.query
+        const transaction = await TransactionController.getAllTransaction(idUser);
+        if (transaction) {
+            return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
+        }
+        return res.status(400).json({ result: false, transaction: null });
     } catch (error) {
         return res.status(500).json({ result: false, transaction: null });
 

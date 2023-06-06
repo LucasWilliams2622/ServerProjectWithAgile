@@ -3,10 +3,20 @@ const CategoryModel = require('./CategoryModel');
 const getCategories = async () => {
   return await CategoryModel.find({});
 }
-
 const getCategoryById = async (id) => {
   try {
     const category = await CategoryModel.findById(id)
+    console.log(category)
+    return category;
+
+  } catch (error) {
+    return false;
+  }
+}
+
+const getCategoryByName = async (name) => {
+  try {
+    const category = await CategoryModel.find({name})
     console.log(category)
     return category;
 
@@ -75,6 +85,7 @@ const searchByType = async (type) => {
 
 module.exports = {
   getCategories, newCategory, deleteById,
-  updateById, getCategoryById, searchByType
+  updateById, getCategoryById, searchByType,
+  getCategoryByName,
 };
 
