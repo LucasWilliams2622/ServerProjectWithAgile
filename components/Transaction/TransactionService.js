@@ -1,29 +1,36 @@
 const TransactionModel = require('./TransactionModel');
 
 
-const getAll = async () => {
+const getAll = async (idUser) => {
     try {
-        let transaction = await TransactionModel.find({}, 'money note category createAt updateAt')
-            .populate('category', 'name type');
-        let totalIncome = 0;
-        let totalExpense = 0;
+        const user = await TransactionModel.findOne({ idUser: idUser })
+        if (user != null) {
+            let transaction = await TransactionModel.find({idUser: idUser}, 'money note category createAt updateAt')
+                .populate('category', 'name type');
+            let totalIncome = 0;
+            let totalExpense = 0;
 
-        for (let i = 0; i < transaction.length; i++) {
-            const category = transaction[i].category;
-            const money = transaction[i].money;
-            if (category.type) {
-                totalExpense += money;
-            } else {
-                totalIncome += money;
+            for (let i = 0; i < transaction.length; i++) {
+                const category = transaction[i].category;
+                const money = transaction[i].money;
+                if (category.type) {
+                    totalExpense += money;
+                } else {
+                    totalIncome += money;
+                }
             }
+
+            let totalMoney = totalIncome - totalExpense
+            console.log("Total income: " + totalIncome);
+            console.log("Total expense: " + totalExpense);
+            console.log("Total money: " + totalMoney);
+            user.totalExpense = totalExpense;
+            user.totalIncome = totalIncome;
+            user.totalMoney = totalMoney;
+            return transaction
+        } else {
+            return false
         }
-
-        let totalMoney = totalIncome - totalExpense
-        console.log("Total income: " + totalIncome);
-        console.log("Total expense: " + totalExpense);
-        console.log("Total money: " + totalMoney);
-
-        return transaction
     } catch (error) {
         console.log('Search Transaction By Money: ', error);
         return null;
@@ -217,7 +224,7 @@ module.exports = {
     addNew, deleteById, editById, getAll, getAllMoney,
     searchTransactionById, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote,
-    searchByDate, searchByMonth,searchByYear,getAllTransaction,
-    searchByRecent,getTransactionById,
+    searchByDate, searchByMonth, searchByYear, getAllTransaction,
+    searchByRecent, getTransactionById,
 
 };
