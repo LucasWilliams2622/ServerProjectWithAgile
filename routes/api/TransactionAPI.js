@@ -3,10 +3,11 @@ var express = require('express');
 var router = express.Router();
 const TransactionController = require('../../components/Transaction/TransactionController');
 
-//http://localhost:3000/transaction/api/get-all
-router.get('/get-all', async (req, res, next) => {
+//http://localhost:3000/transaction/api/get-all-transaction-by-idUser?idUser=
+router.get('/get-all-transaction-by-idUser', async (req, res, next) => {
     try {
-        const transaction = await TransactionController.getAll();
+        const {idUser}= req.query;
+        const transaction = await TransactionController.getAll(idUser);
 
         if (transaction) {
             return res.status(200).json({ message: "Get All success", result: true, transaction: transaction });

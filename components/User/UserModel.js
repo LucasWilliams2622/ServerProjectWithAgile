@@ -27,10 +27,10 @@ const userSchema = new Schema({
   
   createAt: { type: Date, default: Date.now },
   updateAt:{ type: Date, default: Date.now },
-  limit : {type: Number},
-  totalIncome : {type: Number},
-  totalExpense : {type: Number},
-  totalMoney : {type: Number},
+  limit : {type: Number, default: 0},
+  totalIncome : {type: Number, default: 0},
+  totalExpense : {type: Number, default: 0},
+  totalMoney : {type: Number, default: 0},
 
 });
 

@@ -1,8 +1,8 @@
 const TransactionService = require('./TransactionService');
 
-const getAll = async () => {
+const getAll = async (idUser) => {
     try {
-        return await TransactionService.getAll();
+        return await TransactionService.getAll(idUser);
     } catch (error) {
         console.log('Add New Transaction error: ', error);
     }
