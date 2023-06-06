@@ -30,6 +30,30 @@ const getAll = async () => {
     }
 }
 
+const deleteAll = async (idUser) => {
+    try {
+        const user = await TransactionModel.findOne({ idUser: idUser })
+        console.log("======>", user);
+        if (user != null) {
+            const transaction  =await TransactionModel.deleteMany({idUser:idUser})
+
+        console.log("======>", transaction);
+        // for (let i = 0; i < transaction.length; i++) {
+            //     const idUser = transaction[i].idUser;
+            //     if (idUser) {
+
+            //     }
+            // }
+            return transaction
+        } else {
+            return false;
+        }
+    } catch (e) {
+        console.log("EROOR Delete All: " + e);
+        return false
+    }
+}
+
 const addNew = async (money, note, category, idUser, createAt, updateAt) => {
     try {
         const newTransaction = { money, note, category, idUser, createAt, updateAt }
@@ -51,6 +75,7 @@ const deleteById = async (id) => {
         return false
     }
 }
+
 
 const editById = async (id, money, note, category, idUser, createAt, updateAt) => {
     try {
@@ -217,7 +242,7 @@ module.exports = {
     addNew, deleteById, editById, getAll, getAllMoney,
     searchTransactionById, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote,
-    searchByDate, searchByMonth,searchByYear,getAllTransaction,
-    searchByRecent,getTransactionById,
+    searchByDate, searchByMonth, searchByYear, getAllTransaction,
+    searchByRecent, getTransactionById, deleteAll
 
 };

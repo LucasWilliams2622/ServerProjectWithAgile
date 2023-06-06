@@ -8,6 +8,14 @@ const getAll = async () => {
     }
     return null;
 }
+const deleteAll = async (idUser) => {
+    try {
+        return await TransactionService.deleteAll(idUser);
+    } catch (error) {
+        console.log('Delete Transaction All error: ', error);
+    }
+    return null;
+}
 
 const addNew = async (money, note, category, idUser, createAt, updateAt) => {
     try {
@@ -136,6 +144,6 @@ module.exports = {
     searchTransactionById, getAllMoney, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote, searchByDate,
     searchByMonth,searchByYear,getAllTransaction,searchByRecent,
-    getTransactionById
+    getTransactionById, deleteAll
 
 };
