@@ -28,6 +28,10 @@ const getAll = async (idUser) => {
             user.totalExpense = totalExpense;
             user.totalIncome = totalIncome;
             user.totalMoney = totalMoney;
+
+            console.log("Total income: " + user.totalExpense);
+            console.log("Total expense: " + user.totalIncome);
+            console.log("Total money: " + user.totalMoney);
             return transaction
         } else {
             return false
@@ -125,11 +129,11 @@ const searchTransactionByCategory = async (idUser, category) => {
     try {
         const user = await TransactionModel.findOne({ idUser: idUser }).populate('category', 'name type')
         console.log("==============>", user);
-        if(user){
-            const category = await CategoryModel.find({ name:"Đồ uống" })
+        if (user) {
+            const category = await CategoryModel.find({ name: "Đồ uống" })
             console.log(category)
         }
-        const category = await CategoryModel.find({ name:"Đồ uống" })
+        const category = await CategoryModel.find({ name: "Đồ uống" })
         console.log(category)
 
         return user
