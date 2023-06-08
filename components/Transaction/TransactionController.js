@@ -106,9 +106,9 @@ const searchByDate = async (date) => {
     }
     return null;
 }
-const searchByRecent = async (date) => {
+const searchByRecent = async (date,idUser) => {
     try {
-        return await TransactionService.searchByRecent(date);
+        return await TransactionService.searchByRecent(date,idUser);
     } catch (error) {
         console.log('Search Transaction By date error: ', error);
     }

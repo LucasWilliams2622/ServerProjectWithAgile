@@ -16,14 +16,14 @@ const login = async (email, password) => {
     }
 }
 //http://localhost:3000/api/user/loginGoogle
-const loginGoogle = async (email, avatar, name) => {
+const loginGoogle = async (email, name, avatar) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
             user.isLogin = true;
             return user;
         } else {
-            const newUser = { email, avatar, name };
+            const newUser = { email, name, avatar };
             const u = new UserModel(newUser);
             await u.save();
             user.isLogin = true;
@@ -33,6 +33,17 @@ const loginGoogle = async (email, avatar, name) => {
     } catch (error) {
         console.log('loginGoogle error' + error)
         return false;
+    }
+}
+const getById = async (id) => {
+    try {
+        const user = await UserModel.findById({ _id: id });
+        if (user != null) {
+            return user
+        } return false
+    } catch (error) {
+        console.log("Get product by id error " + error);
+        return null;
     }
 }
 
@@ -175,5 +186,6 @@ const disableAccount = async (email, isAble) => {
 }
 module.exports = {
     login, loginGoogle, register, deleteUser,
-    updateUser, getAllUser, search, changePassword, disableAccount
+    updateUser, getAllUser, search, changePassword,
+    disableAccount, getById
 };

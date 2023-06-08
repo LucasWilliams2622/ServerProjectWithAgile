@@ -8,19 +8,19 @@ const login = async (email, password) => {
         return false;
     }
 }
-const loginGoogle = async ( email, name, avatar) => {
+const loginGoogle = async (email, name, avatar) => {
     try {
-        return await UserService.loginGoogle( email, name, avatar);
+        return await UserService.loginGoogle(email, name, avatar);
     } catch (error) {
         return false;
     }
 }
 
 
-const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
+const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode, isAble) => {
     try {
         return await UserService.register(email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode,isAble);
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble);
     } catch (error) {
         return false;
     }
@@ -31,6 +31,13 @@ const deleteUser = async (email) => {
 
     } catch (error) {
         return false;
+    }
+}
+const getById = async (id) => {
+    try {
+        return await UserService.getById(id);
+    } catch (error) {
+        return null;
     }
 }
 const updateUser = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
@@ -651,5 +658,6 @@ module.exports = {
     login, loginGoogle, register, deleteUser,
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
-    verifyCode, disableAccount, sendMailForNewAccount
+    verifyCode, disableAccount, sendMailForNewAccount,
+    getById,
 };

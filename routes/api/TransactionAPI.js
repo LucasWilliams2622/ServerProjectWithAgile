@@ -181,8 +181,8 @@ router.get('/search-by-date', [], async (req, res, next) => {
 router.get('/search-by-recent', [], async (req, res, next) => {
     try {
         // const { date } = req.body
-        const { date } = req.query
-        const transaction = await TransactionController.searchByRecent(date)
+        const { date,idUser } = req.query
+        const transaction = await TransactionController.searchByRecent(date,idUser)
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
         }

@@ -64,6 +64,20 @@ router.post('/register', [], async (req, res, next) => {
         return res.status(500).json({ result: false, user: null })
     }
 })
+// http://localhost:3001/user/api/get-by-id/
+router.get('/get-by-id/', async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const user = await userController.getById(id);
+        if (user) {
+            return res.status(200).json({ result: true, user: user, error: false });
+        }
+        return res.status(400).json({ result: false, user: null, error: true });
+
+    } catch (error) {
+        return res.status(500).json({ result: false, product: null });
+    }
+});
 
 //http://localhost:3000/user/api/update
 router.put('/update', async (req, res, next) => {
