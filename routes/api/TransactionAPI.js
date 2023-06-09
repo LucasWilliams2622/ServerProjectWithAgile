@@ -131,8 +131,8 @@ router.get('/search-by-category', async (req, res, next) => {
 //http://localhost:3000/transaction/api/search-by-money?money=
 router.get('/search-by-money', async (req, res, next) => {
     try {
-        const { money } = req.query;
-        const transaction = await TransactionController.searchTransactionByMoney(money);
+        const { money, idUser } = req.query;
+        const transaction = await TransactionController.searchTransactionByMoney(money, idUser);
         return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
     } catch (error) {
         console.log('Search Transaction by Money error: ', error)
@@ -142,8 +142,8 @@ router.get('/search-by-money', async (req, res, next) => {
 //http://localhost:3000/transaction/api/search-by-note?note=
 router.get('/search-by-note', async (req, res, next) => {
     try {
-        const { note } = req.query;
-        const transaction = await TransactionController.searchTransactionByNote(note);
+        const { note, idUser } = req.query;
+        const transaction = await TransactionController.searchTransactionByNote(note, idUser);
         return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
     } catch (error) {
         console.log('Search Transaction by Note error: ', error)
@@ -163,11 +163,11 @@ router.get('/get-all-money', [], async (req, res, next) => {
         return res.status(500).json({ error: error.message })
     }
 })
-//http://localhost:3000/transaction/api/search-by-date
-router.get('/search-by-date', [], async (req, res, next) => {
+//http://localhost:3000/transaction/api/search-by-current-date
+router.get('/search-by-current-date', [], async (req, res, next) => {
     try {
-        const { date } = req.query;
-        const transaction = await TransactionController.searchByDate(date)
+        const { date, idUser } = req.query;
+        const transaction = await TransactionController.searchByDate(date, idUser)
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
         }
@@ -181,8 +181,8 @@ router.get('/search-by-date', [], async (req, res, next) => {
 router.get('/search-by-recent', [], async (req, res, next) => {
     try {
         // const { date } = req.body
-        const { date,idUser } = req.query
-        const transaction = await TransactionController.searchByRecent(date,idUser)
+        const { date, idUser } = req.query
+        const transaction = await TransactionController.searchByRecent(date, idUser)
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
         }

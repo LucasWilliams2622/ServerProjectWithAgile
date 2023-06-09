@@ -88,9 +88,10 @@ const deleteUser = async (email) => {
     }
 }
 
-const updateUser = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (idUser,email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
-        const user = await UserModel.findOne({ email: email })
+        const user = await UserModel.findOne({ _id: idUser })
+        console.log("sadad",user);
         if (user) {
 
             user.password = password ? password : user.password;

@@ -40,9 +40,9 @@ const getById = async (id) => {
         return null;
     }
 }
-const updateUser = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (idUser,email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
-        return await UserService.updateUser(email, password, name, description, avatar, role, createAt,
+        return await UserService.updateUser(idUser,email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode);
 
     } catch (error) {
@@ -116,9 +116,10 @@ const sendVerifyCode = async (email, subject, verifyCode) => {
 }
 const verifyCode = async (email, verifyCode) => {
     try {
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: email });
         console.log(user)
-        if (user) {
+        if (user == null) {
+            console.log("=====>", user.verificationCode);
             if (user.verificationCode === verifyCode) {
                 console.log(user.verificationCode)
                 await UserModel.updateOne({ email }, { isVerified: true });
@@ -131,7 +132,6 @@ const verifyCode = async (email, verifyCode) => {
         }
     } catch (error) {
         console.log("Verify email error:", error);
-
     }
 }
 const disableAccount = async (email, isAble) => {

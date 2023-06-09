@@ -82,12 +82,13 @@ router.get('/get-by-id/', async (req, res, next) => {
 //http://localhost:3000/user/api/update
 router.put('/update', async (req, res, next) => {
     try {
+        const {idUser} = req.query
         const { email, password, name, description,
             avatar, role, createAt, updateAt, isLogin, isAble } = req.body;
         console.log(email, password, name, description,
             avatar, role, createAt, updateAt, isLogin);
 
-        const user = await userController.updateUser(email, password, name, description,
+        const user = await userController.updateUser(idUser,email, password, name, description,
             avatar, role, createAt, updateAt, isLogin, isAble);
         console.log(user)
         if (user) {
@@ -210,6 +211,7 @@ router.post('/send-verification-code', async (req, res) => {
 router.post('/verify-email', async (req, res) => {
     try {
         const { email, verifyCode } = req.body;
+        console.log(email, verifyCode );
         const result = await userController.verifyCode(email, verifyCode);
         return res.status(200).json({ message: "Verify Success", result: result });
     } catch (error) {

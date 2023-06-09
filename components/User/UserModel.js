@@ -22,7 +22,7 @@ const userSchema = new Schema({
   isActive:{type:Boolean,default:true},
     
   isVerified: { type: Boolean , default: false},
-  verificationCode: { type: String , default:000000},
+  verificationCode: { type: String , default:'00000'},
   isAble:{type:Boolean,default:true},
   
   createAt: { type: Date, default: Date.now },
