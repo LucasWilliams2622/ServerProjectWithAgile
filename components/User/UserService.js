@@ -20,14 +20,18 @@ const loginGoogle = async (email, name, avatar) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
-            user.isLogin = true;
-            return user;
+            if (user.isActive) {
+                user.isLogin = true;
+                return user;
+
+            } else {
+                return false;
+            }
         } else {
             const newUser = { email, name, avatar };
             const u = new UserModel(newUser);
             await u.save();
             user.isLogin = true;
-
             return newUser;
         }
     } catch (error) {
@@ -88,10 +92,10 @@ const deleteUser = async (email) => {
     }
 }
 
-const updateUser = async (idUser,email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
         const user = await UserModel.findOne({ _id: idUser })
-        console.log("sadad",user);
+        console.log("sadad", user);
         if (user) {
 
             user.password = password ? password : user.password;
@@ -169,14 +173,17 @@ const changePassword = async (email, oldPassword, newPassword) => {
         throw error;
     }
 }
-const disableAccount = async (email, isAble) => {
+const disableAccount = async (email, isActive) => {
     try {
-        console.log(isAble);
+        console.log("isActive", isActive);
         const user = await UserModel.findOne({ email: email })
         if (user) {
-            user.isAble = isAble;
-            console.log(user.isAble);
+            user.isActive = isActive;
+            console.log(user.isActive);
+
             await user.save();
+            console.log("asdasdasd", user);
+
             return true;
         } else {
             return false;

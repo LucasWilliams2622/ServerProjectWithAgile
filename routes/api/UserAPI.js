@@ -37,7 +37,7 @@ router.post('/loginGoogle', async (req, res, next) => {
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Login Google Success" });
         }
-        return res.status(400).json({ result: false, user: null, token: null, message: "Login Google Failed" });
+        return res.status(200).json({ result: false, user: null, token: null, message: "Login Google Failed" });
     } catch (error) {
         return res.status(500).json({ result: false, message: 'Error System' })
     }
@@ -224,9 +224,9 @@ router.put('/disable', async (req, res, next) => {
 
     try {
         //const { email } = req.params;
-        const { email, isAble } = req.body;
-        console.log(isAble);
-        const user = await userController.disableAccount(email, isAble);
+        const { email, isActive } = req.body;
+        console.log(email,isActive);
+        const user = await userController.disableAccount(email, isActive);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Disabled" })

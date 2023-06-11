@@ -134,9 +134,9 @@ const verifyCode = async (email, verifyCode) => {
         console.log("Verify email error:", error);
     }
 }
-const disableAccount = async (email, isAble) => {
+const disableAccount = async (email, isActive) => {
     try {
-        return await UserService.disableAccount(email, isAble);
+        return await UserService.disableAccount(email, isActive);
     } catch (error) {
         return false;
     }
