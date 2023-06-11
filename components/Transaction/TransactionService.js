@@ -6,12 +6,12 @@ const UserModel = require('../User/UserModel');
 
 const getAll = async (idUser) => {
     try {
+<<<<<<<<< Temporary merge branch 1
         const user = await TransactionModel.findOne({ idUser: idUser })
         console.log(user);
         if (user != null) {
-            let transaction = await TransactionModel.find({ idUser: idUser },)
-                .populate('category', 'name image type');
-            console.log(transaction);
+            let transaction = await TransactionModel.find({ idUser: idUser }, 'money note category createAt updateAt')
+                .populate('category', 'name type');
             let totalIncome = 0;
             let totalExpense = 0;
 
@@ -33,13 +33,20 @@ const getAll = async (idUser) => {
             console.log("Total income: " + totalIncome);
             console.log("Total expense: " + totalExpense);
             console.log("Total money: " + totalMoney);
-            user.totalExpense = totalExpense;
-            user.totalIncome = totalIncome;
-            user.totalMoney = totalMoney;
+            transaction.totalExpense = totalExpense;
+            transaction.totalIncome = totalIncome;
+            transaction.totalMoney = totalMoney;
 
-            console.log("Total income: " + user.totalExpense);
-            console.log("Total expense: " + user.totalIncome);
-            console.log("Total money: " + user.totalMoney);
+            console.log("Total income: " + transaction.totalExpense);
+            console.log("Total expense: " + transaction.totalIncome);
+            console.log("Total money: " + transaction.totalMoney);
+            console.log(transaction);
+=========
+        let transaction = await TransactionModel.find({ idUser: idUser },)
+            .populate('category', 'name image type');
+        // console.log(transaction);
+        if (transaction) {
+>>>>>>>>> Temporary merge branch 2
             return transaction
         } else {
             return false
