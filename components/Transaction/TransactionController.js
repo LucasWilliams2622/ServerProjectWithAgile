@@ -89,9 +89,9 @@ const searchTransactionByNote = async (note,idUser) => {
     return null;
 }
 
-const getAllMoney = async () => {
+const getTotalMoney = async (idUser) => {
     try {
-        return await TransactionService.getAllMoney();
+        return await TransactionService.getTotalMoney(idUser);
     } catch (error) {
         console.log('Search Transaction By Note error: ', error);
     }
@@ -141,7 +141,7 @@ const getAllTransaction = async (idUser) => {
 
 module.exports = {
     getAll, addNew, deleteById, editById,
-    searchTransactionById, getAllMoney, searchTransactionByCategory,
+    searchTransactionById, getTotalMoney, searchTransactionByCategory,
     searchTransactionByMoney, searchTransactionByNote, searchByDate,
     searchByMonth, searchByYear, getAllTransaction, searchByRecent,
     getTransactionById, deleteAll

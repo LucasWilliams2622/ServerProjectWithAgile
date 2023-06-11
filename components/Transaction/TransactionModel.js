@@ -12,10 +12,6 @@ const transactionSchema = new Schema({
   createAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
 
-  limit : {type: Number, default: 0},
-  totalIncome : {type: Number, default: 0},
-  totalExpense : {type: Number, default: 0},
-  totalMoney : {type: Number, default: 0},
 });
 
 module.exports = mongoose.models.transaction || mongoose.model('Transaction', transactionSchema);
