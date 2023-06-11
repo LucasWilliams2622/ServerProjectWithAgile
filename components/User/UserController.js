@@ -8,19 +8,19 @@ const login = async (email, password) => {
         return false;
     }
 }
-const loginGoogle = async ( email, name, avatar) => {
+const loginGoogle = async (email, name, avatar) => {
     try {
-        return await UserService.loginGoogle( email, name, avatar);
+        return await UserService.loginGoogle(email, name, avatar);
     } catch (error) {
         return false;
     }
 }
 
 
-const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,isAble) => {
+const register = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode, isAble) => {
     try {
         return await UserService.register(email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode,isAble);
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble);
     } catch (error) {
         return false;
     }
@@ -33,9 +33,16 @@ const deleteUser = async (email) => {
         return false;
     }
 }
-const updateUser = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const getById = async (id) => {
     try {
-        return await UserService.updateUser(email, password, name, description, avatar, role, createAt,
+        return await UserService.getById(id);
+    } catch (error) {
+        return null;
+    }
+}
+const updateUser = async (idUser,email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+    try {
+        return await UserService.updateUser(idUser,email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode);
 
     } catch (error) {
@@ -109,9 +116,10 @@ const sendVerifyCode = async (email, subject, verifyCode) => {
 }
 const verifyCode = async (email, verifyCode) => {
     try {
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: email });
         console.log(user)
-        if (user) {
+        if (user == null) {
+            console.log("=====>", user.verificationCode);
             if (user.verificationCode === verifyCode) {
                 console.log(user.verificationCode)
                 await UserModel.updateOne({ email }, { isVerified: true });
@@ -124,12 +132,11 @@ const verifyCode = async (email, verifyCode) => {
         }
     } catch (error) {
         console.log("Verify email error:", error);
-
     }
 }
-const disableAccount = async (email, isAble) => {
+const disableAccount = async (email, isActive) => {
     try {
-        return await UserService.disableAccount(email, isAble);
+        return await UserService.disableAccount(email, isActive);
     } catch (error) {
         return false;
     }
@@ -651,5 +658,6 @@ module.exports = {
     login, loginGoogle, register, deleteUser,
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
-    verifyCode, disableAccount, sendMailForNewAccount
+    verifyCode, disableAccount, sendMailForNewAccount,
+    getById,
 };

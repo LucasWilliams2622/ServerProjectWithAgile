@@ -71,18 +71,18 @@ const searchTransactionByCategory = async (idUser, category) => {
     return null;
 }
 
-const searchTransactionByMoney = async (money) => {
+const searchTransactionByMoney = async (money,idUser) => {
     try {
-        return await TransactionService.searchTransactionByMoney(money);
+        return await TransactionService.searchTransactionByMoney(money,idUser);
     } catch (error) {
         console.log('Search Transaction By Money error: ', error);
     }
     return null;
 }
 
-const searchTransactionByNote = async (note) => {
+const searchTransactionByNote = async (note,idUser) => {
     try {
-        return await TransactionService.searchTransactionByNote(note);
+        return await TransactionService.searchTransactionByNote(note,idUser);
     } catch (error) {
         console.log('Search Transaction By Note error: ', error);
     }
@@ -98,17 +98,17 @@ const getAllMoney = async () => {
     return null;
 }
 
-const searchByDate = async (date) => {
+const searchByDate = async (date,idUser) => {
     try {
-        return await TransactionService.searchByDate(date);
+        return await TransactionService.searchByDate(date,idUser);
     } catch (error) {
         console.log('Search Transaction By date error: ', error);
     }
     return null;
 }
-const searchByRecent = async (date) => {
+const searchByRecent = async (date,idUser) => {
     try {
-        return await TransactionService.searchByRecent(date);
+        return await TransactionService.searchByRecent(date,idUser);
     } catch (error) {
         console.log('Search Transaction By date error: ', error);
     }

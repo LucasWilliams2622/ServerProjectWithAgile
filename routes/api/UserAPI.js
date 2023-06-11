@@ -37,7 +37,7 @@ router.post('/loginGoogle', async (req, res, next) => {
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Login Google Success" });
         }
-        return res.status(400).json({ result: false, user: null, token: null, message: "Login Google Failed" });
+        return res.status(200).json({ result: false, user: null, token: null, message: "Login Google Failed" });
     } catch (error) {
         return res.status(500).json({ result: false, message: 'Error System' })
     }
@@ -64,16 +64,31 @@ router.post('/register', [], async (req, res, next) => {
         return res.status(500).json({ result: false, user: null })
     }
 })
+// http://localhost:3001/user/api/get-by-id/
+router.get('/get-by-id/', async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const user = await userController.getById(id);
+        if (user) {
+            return res.status(200).json({ result: true, user: user, error: false });
+        }
+        return res.status(400).json({ result: false, user: null, error: true });
+
+    } catch (error) {
+        return res.status(500).json({ result: false, product: null });
+    }
+});
 
 //http://localhost:3000/user/api/update
 router.put('/update', async (req, res, next) => {
     try {
+        const {idUser} = req.query
         const { email, password, name, description,
             avatar, role, createAt, updateAt, isLogin, isAble } = req.body;
         console.log(email, password, name, description,
             avatar, role, createAt, updateAt, isLogin);
 
-        const user = await userController.updateUser(email, password, name, description,
+        const user = await userController.updateUser(idUser,email, password, name, description,
             avatar, role, createAt, updateAt, isLogin, isAble);
         console.log(user)
         if (user) {
@@ -196,6 +211,7 @@ router.post('/send-verification-code', async (req, res) => {
 router.post('/verify-email', async (req, res) => {
     try {
         const { email, verifyCode } = req.body;
+        console.log(email, verifyCode );
         const result = await userController.verifyCode(email, verifyCode);
         return res.status(200).json({ message: "Verify Success", result: result });
     } catch (error) {
@@ -208,9 +224,9 @@ router.put('/disable', async (req, res, next) => {
 
     try {
         //const { email } = req.params;
-        const { email, isAble } = req.body;
-        console.log(isAble);
-        const user = await userController.disableAccount(email, isAble);
+        const { email, isActive } = req.body;
+        console.log(email,isActive);
+        const user = await userController.disableAccount(email, isActive);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Disabled" })

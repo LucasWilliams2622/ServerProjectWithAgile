@@ -16,23 +16,38 @@ const login = async (email, password) => {
     }
 }
 //http://localhost:3000/api/user/loginGoogle
-const loginGoogle = async (email, avatar, name) => {
+const loginGoogle = async (email, name, avatar) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
-            user.isLogin = true;
-            return user;
+            if (user.isActive) {
+                user.isLogin = true;
+                return user;
+
+            } else {
+                return false;
+            }
         } else {
-            const newUser = { email, avatar, name };
+            const newUser = { email, name, avatar };
             const u = new UserModel(newUser);
             await u.save();
             user.isLogin = true;
-
             return newUser;
         }
     } catch (error) {
         console.log('loginGoogle error' + error)
         return false;
+    }
+}
+const getById = async (id) => {
+    try {
+        const user = await UserModel.findById({ _id: id });
+        if (user != null) {
+            return user
+        } return false
+    } catch (error) {
+        console.log("Get product by id error " + error);
+        return null;
     }
 }
 
@@ -77,9 +92,10 @@ const deleteUser = async (email) => {
     }
 }
 
-const updateUser = async (email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
-        const user = await UserModel.findOne({ email: email })
+        const user = await UserModel.findOne({ _id: idUser })
+        console.log("sadad", user);
         if (user) {
 
             user.password = password ? password : user.password;
@@ -157,14 +173,17 @@ const changePassword = async (email, oldPassword, newPassword) => {
         throw error;
     }
 }
-const disableAccount = async (email, isAble) => {
+const disableAccount = async (email, isActive) => {
     try {
-        console.log(isAble);
+        console.log("isActive", isActive);
         const user = await UserModel.findOne({ email: email })
         if (user) {
-            user.isAble = isAble;
-            console.log(user.isAble);
+            user.isActive = isActive;
+            console.log(user.isActive);
+
             await user.save();
+            console.log("asdasdasd", user);
+
             return true;
         } else {
             return false;
@@ -175,5 +194,6 @@ const disableAccount = async (email, isAble) => {
 }
 module.exports = {
     login, loginGoogle, register, deleteUser,
-    updateUser, getAllUser, search, changePassword, disableAccount
+    updateUser, getAllUser, search, changePassword,
+    disableAccount, getById
 };
