@@ -127,11 +127,11 @@ router.post('/send-mail', async (req, res, next) => {
 //http://localhost:3000/user/api/search
 router.get('/search', async (req, res, next) => {
     try {
-        let { email } = req.body;
+        let { email } = req.query;
         let { name } = req.body;
 
-        console.log(email)
-        const user = await userController.search(email, name);
+        console.log("email",email)
+        const user = await userController.search(email);
         console.log(user);
         if (user) {
             res.status(200).json({ message: "Search Success", result: true, user: user, });

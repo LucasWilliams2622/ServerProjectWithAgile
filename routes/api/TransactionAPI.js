@@ -150,10 +150,11 @@ router.get('/search-by-note', async (req, res, next) => {
         return res.status(500).json({ result: false, transaction: null });
     }
 });
-//http://localhost:3000/transaction/api/get-all-money
-router.get('/get-all-money', [], async (req, res, next) => {
+//http://localhost:3000/transaction/api/get-total-money
+router.get('/get-total-money', [], async (req, res, next) => {
     try {
-        const transaction = await TransactionController.getAllMoney()
+        const { idUser} = req.query
+        const transaction = await TransactionController.getTotalMoney(idUser)
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
         }

@@ -123,17 +123,19 @@ const updateUser = async (idUser, email, password, name, description, avatar, ro
         return false;
     }
 }
-const search = async (email, name) => {
+const search = async (email) => {
     try {
-        console.log("aaaaa", email, name)
-        const users = await UserModel.find({
-            $and: [
-                { name: { $regex: name, $options: 'i' } },
-                { email: { $regex: email } }
-            ]
-        })
+        console.log("aaaaa", email)
+        const users = await UserModel.find({ email: { $regex: email } })
         console.log(users)
         return users;
+        // const users = await UserModel.find({
+        //     $and: [
+        //         { name: { $regex: name, $options: 'i' } },
+        //         { email: { $regex: email } }
+        //     ]
+        // })
+  
 
     } catch (error) {
         return false;

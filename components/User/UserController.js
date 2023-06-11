@@ -56,9 +56,9 @@ const getAllUser = async (page, size) => {
         throw error;
     }
 }
-const search = async (email, name) => {
+const search = async (email) => {
     try {
-        return await UserService.search(email, name);
+        return await UserService.search(email);
     } catch (error) {
         throw error;
     }
