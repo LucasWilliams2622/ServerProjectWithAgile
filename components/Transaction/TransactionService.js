@@ -7,13 +7,13 @@ const UserModel = require('../User/UserModel');
 const getAll = async (idUser) => {
     try {
         let transaction = await TransactionModel.find({ idUser: idUser },)
-            .populate('category', 'name image type');
-        // console.log(transaction);
-        if (transaction) {
-            return transaction
-        } else {
-            return false
-        }
+        .populate('category', 'name image type');
+    // console.log(transaction);
+    if (transaction) {
+        return transaction
+    } else {
+        return false
+    }
     } catch (error) {
         console.log('Search Transaction By Money: ', error);
         return null;
@@ -329,6 +329,46 @@ const getAllTransaction = async (idUser) => {
     }
 }
 
+const getAllTransactionofaUser = async (idUser) => {
+    try {
+        const user = await TransactionModel.findOne({ idUser: idUser })
+        if (user != null) {
+            let transaction = await TransactionModel.find({ idUser: idUser }, 'money note category createAt updateAt totalExpense totalIncome totalMoney' )
+                .populate('category', 'name type');
+            let totalIncome = 0;
+            let totalExpense = 0;
+
+            for (let i = 0; i < transaction.length; i++) {
+                const category = transaction[i].category;
+                const money = transaction[i].money;
+                if (category.type) {
+                    totalExpense += money;
+                } else {
+                    totalIncome += money;
+                }
+            }
+
+            let totalMoney = totalIncome - totalExpense
+            console.log("Total income: " + totalIncome);
+            console.log("Total expense: " + totalExpense);
+            console.log("Total money: " + totalMoney);
+            transaction.totalExpense = totalExpense;
+            transaction.totalIncome = totalIncome;
+            transaction.totalMoney = totalMoney;
+
+            console.log("Total income: " + transaction.totalExpense);
+            console.log("Total expense: " + transaction.totalIncome);
+            console.log("Total money: " + transaction.totalMoney);
+            console.log(transaction);
+            return transaction
+        } else {
+            return false
+        }
+    } catch (error) {
+        console.log('Search Transaction By Money: ', error);
+        return null;
+    }
+}
 
 module.exports = {
     addNew, deleteById, editById, getAll, getTotalMoney,
