@@ -6,47 +6,10 @@ const UserModel = require('../User/UserModel');
 
 const getAll = async (idUser) => {
     try {
-<<<<<<<<< Temporary merge branch 1
-        const user = await TransactionModel.findOne({ idUser: idUser })
-        console.log(user);
-        if (user != null) {
-            let transaction = await TransactionModel.find({ idUser: idUser }, 'money note category createAt updateAt')
-                .populate('category', 'name type');
-            let totalIncome = 0;
-            let totalExpense = 0;
-
-            for (let i = 0; i < transaction.length; i++) {
-                const category = transaction[i].category;
-                const money = transaction[i].money;
-                if (category.type) {
-                    totalExpense += money;
-                } else {
-                    totalIncome += money;
-                }
-            }
-
-
-            let totalMoney = totalIncome - totalExpense
-            if (totalExpense > totalIncome) {
-                totalMoney = -totalMoney
-            }
-            console.log("Total income: " + totalIncome);
-            console.log("Total expense: " + totalExpense);
-            console.log("Total money: " + totalMoney);
-            transaction.totalExpense = totalExpense;
-            transaction.totalIncome = totalIncome;
-            transaction.totalMoney = totalMoney;
-
-            console.log("Total income: " + transaction.totalExpense);
-            console.log("Total expense: " + transaction.totalIncome);
-            console.log("Total money: " + transaction.totalMoney);
-            console.log(transaction);
-=========
         let transaction = await TransactionModel.find({ idUser: idUser },)
             .populate('category', 'name image type');
         // console.log(transaction);
         if (transaction) {
->>>>>>>>> Temporary merge branch 2
             return transaction
         } else {
             return false
@@ -302,7 +265,7 @@ const searchByRecent = async (createAt, idUser) => {
                     $gte: startDate,
                     $lte: endDate,
                 },
-            },).populate('category', 'name type image')
+            }).populate('category', 'name type image')
             console.log(transaction);
             return transaction;
         } else {
@@ -370,7 +333,7 @@ const getAllTransactionofaUser = async (idUser) => {
     try {
         const user = await TransactionModel.findOne({ idUser: idUser })
         if (user != null) {
-            let transaction = await TransactionModel.find({ idUser: idUser }, 'money note category createAt updateAt totalExpense totalIncome totalMoney' )
+            let transaction = await TransactionModel.find({ idUser: idUser }, 'money note category createAt updateAt totalExpense totalIncome totalMoney')
                 .populate('category', 'name type');
             let totalIncome = 0;
             let totalExpense = 0;
