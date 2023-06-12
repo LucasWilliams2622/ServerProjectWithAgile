@@ -232,7 +232,7 @@ const searchByDate = async (createAt, idUser) => {
                 createAt: {
                     $gte: startDate,
                     $lte: endDate,
-                },
+                },idUser: idUser
             }).populate('category', 'name image type');
 
         } else {
