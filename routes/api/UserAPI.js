@@ -82,13 +82,13 @@ router.get('/get-by-id/', async (req, res, next) => {
 //http://localhost:3000/user/api/update
 router.put('/update', async (req, res, next) => {
     try {
-        const {idUser} = req.query
+        const { idUser } = req.query
         const { email, password, name, description,
             avatar, role, createAt, updateAt, isLogin, isAble } = req.body;
         console.log(email, password, name, description,
             avatar, role, createAt, updateAt, isLogin);
 
-        const user = await userController.updateUser(idUser,email, password, name, description,
+        const user = await userController.updateUser(idUser, email, password, name, description,
             avatar, role, createAt, updateAt, isLogin, isAble);
         console.log(user)
         if (user) {
@@ -130,7 +130,7 @@ router.get('/search', async (req, res, next) => {
         let { email } = req.query;
         let { name } = req.body;
 
-        console.log("email",email)
+        console.log("email", email)
         const user = await userController.search(email);
         console.log(user);
         if (user) {
@@ -190,6 +190,24 @@ router.put('/change-password', [], async (req, res, next) => {
         res.status(500).json({ message: 'Lỗi máy chủ' });
     }
 });
+//http://localhost:3000/user/api/change-forgot-password
+router.put('/change-forgot-password', [], async (req, res, next) => {
+    try {
+        const { email, newPassword } = req.body;
+        console.log(email, newPassword)
+        const user = await userController.changeForgotPassword(email, newPassword);
+        console.log(user)
+        if (user) {
+            res.status(200).json({ result: true, message: "Change Forgot Password Success" })
+        } else {
+            res.status(400).json({ result: false, massage: "Change Forgot Password Failed" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi máy chủ' });
+    }
+});
+
+
 //http://localhost:3000/user/api/send-verification-code
 router.post('/send-verification-code', async (req, res) => {
     try {
@@ -211,7 +229,7 @@ router.post('/send-verification-code', async (req, res) => {
 router.post('/verify-email', async (req, res) => {
     try {
         const { email, verifyCode } = req.body;
-        console.log(email, verifyCode );
+        console.log(email, verifyCode);
         const result = await userController.verifyCode(email, verifyCode);
         return res.status(200).json({ message: "Verify Success", result: result });
     } catch (error) {
@@ -225,7 +243,7 @@ router.put('/disable', async (req, res, next) => {
     try {
         //const { email } = req.params;
         const { email, isActive } = req.body;
-        console.log(email,isActive);
+        console.log(email, isActive);
         const user = await userController.disableAccount(email, isActive);
         console.log(user)
         if (user) {

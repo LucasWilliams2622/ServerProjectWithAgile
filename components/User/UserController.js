@@ -40,9 +40,9 @@ const getById = async (id) => {
         return null;
     }
 }
-const updateUser = async (idUser,email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
     try {
-        return await UserService.updateUser(idUser,email, password, name, description, avatar, role, createAt,
+        return await UserService.updateUser(idUser, email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode);
 
     } catch (error) {
@@ -66,6 +66,13 @@ const search = async (email) => {
 const changePassword = async (email, oldPassword, newPassword) => {
     try {
         return await UserService.changePassword(email, oldPassword, newPassword);
+    } catch (error) {
+        throw error;
+    }
+}
+const changeForgotPassword = async (email, newPassword) => {
+    try {
+        return await UserService.changeForgotPassword(email, newPassword);
     } catch (error) {
         throw error;
     }
@@ -659,5 +666,5 @@ module.exports = {
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
     verifyCode, disableAccount, sendMailForNewAccount,
-    getById,
+    getById,changeForgotPassword
 };

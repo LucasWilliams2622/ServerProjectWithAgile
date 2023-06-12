@@ -135,7 +135,7 @@ const search = async (email) => {
         //         { email: { $regex: email } }
         //     ]
         // })
-  
+
 
     } catch (error) {
         return false;
@@ -194,8 +194,27 @@ const disableAccount = async (email, isActive) => {
 
     }
 }
+
+const changeForgotPassword = async (email, newPassword) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            console.log("INFO USER:", user);
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(newPassword, salt);
+            user.password = hash
+            await user.save();
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.log("Change Password got an error: ", error);
+        throw error;
+    }
+}
 module.exports = {
     login, loginGoogle, register, deleteUser,
     updateUser, getAllUser, search, changePassword,
-    disableAccount, getById
+    disableAccount, getById,changeForgotPassword
 };
