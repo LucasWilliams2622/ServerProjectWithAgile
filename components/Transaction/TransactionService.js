@@ -249,22 +249,20 @@ const searchByRecent = async (createAt, idUser) => {
         const user = await TransactionModel.findOne({ idUser: idUser })
         console.log(user);
         if (user != null) {
-            const startDate = createAt + 'T00:00:00.000Z';
-            let endYear = createAt.slice(0, 4)
-            let endMonth = createAt.slice(5, 7)
-            let endDay = parseInt(createAt.slice(8, 10)) + 7;
-            endDay = endDay < 10 ? "0" + endDay : endDay
-            endDay = endDay > 31 ? 31 : endDay
-
-            const endDate = endYear + "-" + endMonth + "-" + endDay + 'T23:59:59.999Z';
-            console.log("END DAY" + endDate);
-            console.log("START DAY" + startDate);
-
+            const currentDate = createAt + 'T00:00:00.000Z';
+            let pastYear = createAt.slice(0, 4)
+            let pastMonth = createAt.slice(5, 7)
+            let pastDay = parseInt(createAt.slice(8, 10)) - 7;
+            pastDay = pastDay < 10 ? "0" + pastDay : pastDay
+            pastDay = pastDay > 31 ? 31 : pastDay
+            const pastDate = pastYear + "-" + pastMonth + "-" + pastDay + 'T23:59:59.999Z';
+            // console.log("past DAY" + pastDate);
+            // console.log("currentDate " + currentDate);
             const transaction = await TransactionModel.find({
                 createAt: {
-                    $gte: startDate,
-                    $lte: endDate,
-                },
+                    $gte: pastDate,
+                    $lte: currentDate,
+                },idUser: idUser
             }).populate('category', 'name type image')
             console.log(transaction);
             return transaction;

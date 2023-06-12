@@ -172,7 +172,7 @@ router.get('/search-by-current-date', [], async (req, res, next) => {
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
         }
-        return res.status(400).json({ result: false, transaction: null });
+        return res.status(200).json({ result: false, transaction: null });
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message })
@@ -181,13 +181,13 @@ router.get('/search-by-current-date', [], async (req, res, next) => {
 //http://localhost:3000/transaction/api/search-by-recent
 router.get('/search-by-recent', [], async (req, res, next) => {
     try {
-        // const { date } = req.body
         const { date, idUser } = req.query
+        // console.log(idUser);
         const transaction = await TransactionController.searchByRecent(date, idUser)
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
         }
-        return res.status(400).json({ result: false, transaction: null });
+        return res.status(200).json({ result: false, transaction: null });
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message })

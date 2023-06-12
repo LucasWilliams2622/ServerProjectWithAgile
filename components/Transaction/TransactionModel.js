@@ -6,10 +6,10 @@ const transactionSchema = new Schema({
   id: { type: ObjectId },
   money: { type: Number, required: true },
   note: { type: String, default: "" },
-  category: { type: ObjectId, ref: 'Category' },
+  category: { type: ObjectId, ref: 'Category', required: true },
 
-  idUser:{type:ObjectId,ref:'User'},
-  createAt: { type: Date, default: Date.now },
+  idUser: { type: ObjectId, ref: 'User' },
+  createAt: { type: Date, default: Date.now, required: true },
   updateAt: { type: Date, default: Date.now },
 
 });
