@@ -83,8 +83,8 @@ const transporter = mailer.createTransport({
     port: 465,
     secure: true, // use TLS
     auth: {
-        user: 'nguyenvanson2622003@gmail.com',
-        pass: 'wzbnwoqyymntiavu'
+        user: 'quochuy3232@gmail.com',
+        pass: 'wnrropqtnsvaisfw'
     },
     tls: { rejectUnauthorized: false }
 })
@@ -105,6 +105,7 @@ const sendMail = async (email, subject, content) => {
     }
     return false;
 }
+
 const sendVerifyCode = async (email, subject, verifyCode) => {
     try {
         const mailOptions = {
@@ -122,9 +123,25 @@ const sendVerifyCode = async (email, subject, verifyCode) => {
     return false;
 }
 
+const sendVerifyCodeNew = async (email, subject, verifyCode) => {
+    try {
+        const mailOptions = {
+            from: "Lucas <nguyenvanson2622003@gmail.com>",
+            to: email,
+            subject: subject,
+            html: "Your authentication code is : " + verifyCode
+        }
+        await transporter.sendMail(mailOptions);
+        return true
+    } catch (error) {
+        console.log("Send email error:", error);
+    }
+    return false;
+}
+
 const verifyCode = async (email, verifyCode) => {
     try {
-        console.log(email,verifyCode);
+        console.log(email, verifyCode);
         const user = await UserModel.findOne({ email: email });
         console.log(user)
         if (user) {
@@ -667,6 +684,6 @@ module.exports = {
     login, loginGoogle, register, deleteUser,
     updateUser, getAllUser, search,
     changePassword, sendMail, sendVerifyCode,
-    verifyCode, disableAccount, sendMailForNewAccount,
-    getById,changeForgotPassword
+    verifyCode, disableAccount, sendMailForNewAccount, sendVerifyCodeNew,
+    getById, changeForgotPassword
 };

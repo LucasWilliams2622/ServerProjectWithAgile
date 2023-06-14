@@ -3,7 +3,7 @@ var router = express.Router();
 const upLoadImage = require("../../MiddleWare/UpLoadImage")
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-
+var number = 0;
 const userController = require('../../components/User/UserController')
 //http://localhost:3000/user/api/login
 router.post('/login', async (req, res, next) => {
@@ -64,6 +64,7 @@ router.post('/register', [], async (req, res, next) => {
         return res.status(500).json({ result: false, user: null })
     }
 })
+
 // http://localhost:3001/user/api/get-by-id/
 router.get('/get-by-id/', async (req, res, next) => {
     try {
@@ -207,14 +208,16 @@ router.put('/change-forgot-password', [], async (req, res, next) => {
     }
 });
 
-
+// for forgot password
 //http://localhost:3000/user/api/send-verification-code
 router.post('/send-verification-code', async (req, res) => {
     try {
         const { email } = req.body;
         let subject = "Food Shop Account Verification";
         const verifyCode = (Math.floor(Math.random() * 90000) + 10000)
+        number = verifyCode;
         console.log("--->", verifyCode)
+        console.log('number', number);
         // const randomCode = crypto.randomBytes(3).toString('hex');
         // const numberOnly = randomCode.replace(/\D/g, '');
         // console.log(numberOnly);
@@ -237,6 +240,44 @@ router.post('/verify-email', async (req, res) => {
         return res.status(500).json({ result: false, massage: "ERROR Verify" })//app
     }
 });
+// for create new account
+//http://localhost:3000/user/api/send-verification-code-new
+router.post('/send-verification-code-new', async (req, res) => {
+    try {
+        const { email } = req.body;
+        console.log(email);
+
+        let subject = "Food Shop Account Verification";
+        const verifyCode = (Math.floor(Math.random() * 90000) + 10000)
+        number = verifyCode;
+        console.log("--->", verifyCode)
+        console.log('number', number);
+        // const randomCode = crypto.randomBytes(3).toString('hex');
+        // const numberOnly = randomCode.replace(/\D/g, '');
+        // console.log(numberOnly);
+        const result = await userController.sendVerifyCodeNew(email, subject, verifyCode);
+        return res.status(200).json({ message: "Send Success", result: result });
+    } catch (error) {
+        console.log("MAIL:" + error)//API
+        return res.status(500).json({ result: false, massage: "ERROR Send" })//app
+    }
+});
+//http://localhost:3000/user/api/verify-email-new
+router.post('/verify-email-new', async (req, res) => {
+    try {
+        const { verifyCode } = req.body;
+        if (verifyCode == number) {
+            return res.status(200).json({ message: "Verify Success", result: true });
+        }
+        else {
+            return res.status(400).json({ message: "Verify Failed", result: false });
+        }
+    } catch (error) {
+        console.log("MAIL:" + error)//API
+        return res.status(500).json({ result: false, massage: "ERROR Verify" })//app
+    }
+});
+
 //http://localhost:3000/user/api/disable
 router.put('/disable', async (req, res, next) => {
 
