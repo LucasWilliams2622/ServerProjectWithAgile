@@ -232,7 +232,7 @@ const searchByDate = async (createAt, idUser) => {
                 createAt: {
                     $gte: startDate,
                     $lte: endDate,
-                },idUser: idUser
+                }, idUser: idUser
             }).populate('category', 'name image type');
 
         } else {
@@ -262,8 +262,8 @@ const searchByRecent = async (createAt, idUser) => {
                 createAt: {
                     $gte: pastDate,
                     $lte: currentDate,
-                },idUser: idUser
-            }).populate('category', 'name type image')
+                }, idUser: idUser
+            }).populate('category', 'name type image').sort({ createAt: -1 });
             console.log(transaction);
             return transaction;
         } else {

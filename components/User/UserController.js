@@ -121,11 +121,13 @@ const sendVerifyCode = async (email, subject, verifyCode) => {
     }
     return false;
 }
+
 const verifyCode = async (email, verifyCode) => {
     try {
+        console.log(email,verifyCode);
         const user = await UserModel.findOne({ email: email });
         console.log(user)
-        if (user == null) {
+        if (user) {
             console.log("=====>", user.verificationCode);
             if (user.verificationCode === verifyCode) {
                 console.log(user.verificationCode)
