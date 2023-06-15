@@ -292,17 +292,130 @@ const searchByMonth = async (month) => {
     }
 }
 
-const searchByYear = async (year) => {
+const searchByYear = async (year, idUser) => {
     try {
-        const startDate = year + '-01-01T00:00:00.000Z';
-        const endDate = year + '-12-31T23:59:59.999Z';
-        const transactions = await TransactionModel.find({
-            createAt: {
-                $gte: startDate,
-                $lte: endDate,
-            },
-        });
-        return transactions
+        const user = await TransactionModel.find({ idUser: idUser })
+        if (user) {
+            const startJan = year + '-01-01T00:00:00.000Z';
+            const endJan = year + '-01-31T23:59:59.999Z';
+
+            const startFer = year + '-02-01T00:00:00.000Z';
+            const endFer = year + '-02-29T23:59:59.999Z';
+
+            const startMar = year + '-03-01T00:00:00.000Z';
+            const endMar = year + '-03-31T23:59:59.999Z';
+
+            const startApr = year + '-04-01T00:00:00.000Z';
+            const endApr = year + '-04-30T23:59:59.999Z';
+
+            const startMay = year + '-05-01T00:00:00.000Z';
+            const endMay = year + '-05-31T23:59:59.999Z';
+
+            const startJun = year + '-06-01T00:00:00.000Z';
+            const endJun = year + '-06-30T23:59:59.999Z';
+
+            const startJul = year + '-07-01T00:00:00.000Z';
+            const endJul = year + '-07-31T23:59:59.999Z';
+
+            const startAug = year + '-08-01T00:00:00.000Z';
+            const endAug = year + '-08-31T23:59:59.999Z';
+
+            const startSep = year + '-09-01T00:00:00.000Z';
+            const endSep = year + '-09-30T23:59:59.999Z';
+
+            const startOct = year + '-10-01T00:00:00.000Z';
+            const endOct = year + '-10-31T23:59:59.999Z';
+
+            const startNov = year + '-11-01T00:00:00.000Z';
+            const endNov = year + '-11-30T23:59:59.999Z';
+
+            const startDec = year + '-12-01T00:00:00.000Z';
+            const endDec = year + '-12-31T23:59:59.999Z';
+
+            const transactionsJan = await TransactionModel.find({
+                createAt: {
+                    $gte: startJan,
+                    $lte: endJan,
+                }, idUser: idUser
+            });
+
+            const transactionsFer = await TransactionModel.find({
+                createAt: {
+                    $gte: startFer,
+                    $lte: endFer,
+                }, idUser: idUser
+            });
+
+            const transactionsMar = await TransactionModel.find({
+                createAt: {
+                    $gte: startMar,
+                    $lte: endMar,
+                }, idUser: idUser
+            });
+            const transactionsApr = await TransactionModel.find({
+                createAt: {
+                    $gte: startApr,
+                    $lte: endApr,
+                }, idUser: idUser
+            });
+            const transactionsMay = await TransactionModel.find({
+                createAt: {
+                    $gte: startMay,
+                    $lte: endMay,
+                }, idUser: idUser
+            });
+            const transactionsJun = await TransactionModel.find({
+                createAt: {
+                    $gte: startJun,
+                    $lte: endJun,
+                }, idUser: idUser
+            });
+            const transactionsJul = await TransactionModel.find({
+                createAt: {
+                    $gte: startJul,
+                    $lte: endJul,
+                }, idUser: idUser
+            });
+            const transactionsAug = await TransactionModel.find({
+                createAt: {
+                    $gte: startAug,
+                    $lte: endAug,
+                }, idUser: idUser
+            });
+            const transactionsSep = await TransactionModel.find({
+                createAt: {
+                    $gte: startSep,
+                    $lte: endSep,
+                }, idUser: idUser
+            });
+            const transactionsOct = await TransactionModel.find({
+                createAt: {
+                    $gte: startOct,
+                    $lte: endOct,
+                }, idUser: idUser
+            });
+            const transactionsNov = await TransactionModel.find({
+                createAt: {
+                    $gte: startNov,
+                    $lte: endNov,
+                }, idUser: idUser
+            });
+            const transactionsDec = await TransactionModel.find({
+                createAt: {
+                    $gte: startDec,
+                    $lte: endDec,
+                }, idUser: idUser
+            });
+            const transactions = [{ transactionsJan: transactionsJan }, { transactionsFer: transactionsFer }, { transactionsMar: transactionsMar },
+            { transactionsApr: transactionsApr }, { transactionsMay: transactionsMay }, { transactionsJun: transactionsJun },
+            { transactionsJul: transactionsJul }, { transactionsAug: transactionsAug }, { transactionsSep: transactionsSep },
+            { transactionsOct: transactionsOct }, { transactionsNov: transactionsNov }, { transactionsDec: transactionsDec }]
+            console.log("transactions", transactions);
+            return transactions
+        } else {
+            return false
+        }
+
     } catch (error) {
         console.log('Search Transaction By Id: ', error);
         return null;

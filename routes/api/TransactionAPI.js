@@ -210,12 +210,12 @@ router.get('/search-by-month', [], async (req, res, next) => {
 //http://localhost:3000/transaction/api/search-by-year
 router.get('/search-by-year', [], async (req, res, next) => {
     try {
-        const { year } = req.body
-        const transaction = await TransactionController.searchByYear(year)
+        const { year ,idUser } = req.query
+        const transaction = await TransactionController.searchByYear(year,idUser)
         if (transaction) {
             return res.status(200).json({ message: "Search Success", result: true, transaction: transaction });
         }
-        return res.status(400).json({ result: false, transaction: null });
+        return res.status(200).json({ result: false, transaction: null });
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message })

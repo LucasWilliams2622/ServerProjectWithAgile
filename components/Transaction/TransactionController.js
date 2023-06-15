@@ -123,9 +123,9 @@ const searchByMonth = async (month) => {
     }
     return null;
 }
-const searchByYear = async (year) => {
+const searchByYear = async (year,idUser) => {
     try {
-        return await TransactionService.searchByYear(year);
+        return await TransactionService.searchByYear(year,idUser);
     } catch (error) {
         console.log('Search Transaction By year error: ', error);
     }
