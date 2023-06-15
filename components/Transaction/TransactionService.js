@@ -68,7 +68,7 @@ const deleteById = async (id) => {
 
 const editById = async (id, money, note, category, idUser, createAt, updateAt) => {
     try {
-        const transaction = await TransactionModel.findById(id)
+        const transaction = await TransactionModel.findById(id, idUser)
         if (transaction) {
             transaction.money = money ? money : transaction.money;
             transaction.note = note ? note : transaction.note;

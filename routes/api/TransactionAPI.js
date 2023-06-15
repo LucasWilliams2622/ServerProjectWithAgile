@@ -87,8 +87,8 @@ router.delete('/delete-by-id', async (req, res, next) => {
 //http://localhost:3000/transaction/api/edit-by-id
 router.put('/edit-by-id', async (req, res, next) => {
     try {
-        const { id } = req.query;
-        const { money, note, category, idUser, createAt, updateAt } = req.body;
+        const { id, idUser } = req.query;
+        const { money, note, category, createAt, updateAt } = req.body;
         const transaction = await TransactionController.editById(id, money, note, category, idUser, createAt, updateAt);
         if (transaction) {
             return res.status(200).json({ message: "Edit success", result: true, transaction: transaction });
