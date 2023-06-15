@@ -337,81 +337,112 @@ const searchByYear = async (year, idUser) => {
                     $gte: startJan,
                     $lte: endJan,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
 
             const transactionsFer = await TransactionModel.find({
                 createAt: {
                     $gte: startFer,
                     $lte: endFer,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
 
             const transactionsMar = await TransactionModel.find({
                 createAt: {
                     $gte: startMar,
                     $lte: endMar,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsApr = await TransactionModel.find({
                 createAt: {
                     $gte: startApr,
                     $lte: endApr,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsMay = await TransactionModel.find({
                 createAt: {
                     $gte: startMay,
                     $lte: endMay,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsJun = await TransactionModel.find({
                 createAt: {
                     $gte: startJun,
                     $lte: endJun,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsJul = await TransactionModel.find({
                 createAt: {
                     $gte: startJul,
                     $lte: endJul,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsAug = await TransactionModel.find({
                 createAt: {
                     $gte: startAug,
                     $lte: endAug,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsSep = await TransactionModel.find({
                 createAt: {
                     $gte: startSep,
                     $lte: endSep,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsOct = await TransactionModel.find({
                 createAt: {
                     $gte: startOct,
                     $lte: endOct,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsNov = await TransactionModel.find({
                 createAt: {
                     $gte: startNov,
                     $lte: endNov,
                 }, idUser: idUser
-            });
+            }).populate('category', 'name image type');;
             const transactionsDec = await TransactionModel.find({
                 createAt: {
                     $gte: startDec,
                     $lte: endDec,
                 }, idUser: idUser
-            });
-            const transactions = [{ transactionsJan: transactionsJan }, { transactionsFer: transactionsFer }, { transactionsMar: transactionsMar },
-            { transactionsApr: transactionsApr }, { transactionsMay: transactionsMay }, { transactionsJun: transactionsJun },
-            { transactionsJul: transactionsJul }, { transactionsAug: transactionsAug }, { transactionsSep: transactionsSep },
-            { transactionsOct: transactionsOct }, { transactionsNov: transactionsNov }, { transactionsDec: transactionsDec }]
-            console.log("transactions", transactions);
-            return transactions
+            }).populate('category', 'name image type');;
+            if (transactionsJun) {
+                let totalIncome = 0;
+                let totalExpense = 0;
+                for (let i = 0; i < transactionsJun.length; i++) {
+                    const category = transactionsJun[i].category;
+                    const money = transactionsJun[i].money;
+                    if (category.type) {
+                        totalExpense += money;
+                    } else {
+                        totalIncome += money;
+                    }
+                }
+
+                console.log("Total income: " + totalIncome);
+                console.log("Total expense: " + totalExpense);
+
+
+                // let userTrans = await UserModel.findOne({ _id: idUser }, "limit totalMoney totalExpense totalIncome name _id ")
+                // userTrans.totalExpense = totalExpense;
+                // userTrans.totalIncome = totalIncome;
+                // userTrans.totalMoney = totalMoney;
+                // console.log(userTrans.limit);
+                // console.log(userTrans.totalExpense);
+                // console.log(userTrans.totalIncome);
+                // console.log(userTrans.totalMoney);
+                // console.log(userTrans);
+                // return userTrans
+                const transactions = [{ transactionsJan: transactionsJan }, { transactionsFer: transactionsFer }, { transactionsMar: transactionsMar },
+                { transactionsApr: transactionsApr }, { transactionsMay: transactionsMay }, { transactionsJun: transactionsJun },
+                { transactionsJul: transactionsJul }, { transactionsAug: transactionsAug }, { transactionsSep: transactionsSep },
+                { transactionsOct: transactionsOct }, { transactionsNov: transactionsNov }, { transactionsDec: transactionsDec }]
+                console.log("transactions", transactions);
+                return transactions
+            } else {
+                return false
+            }
+
         } else {
             return false
         }

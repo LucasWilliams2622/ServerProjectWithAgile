@@ -32,6 +32,8 @@ const userSchema = new Schema({
   totalExpense : {type: Number, default: 0},
   totalMoney : {type: Number, default: 0},
 
+  
+
 });
 
 module.exports = mongoose.models.user || mongoose.model('User', userSchema);
