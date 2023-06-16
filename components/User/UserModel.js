@@ -23,7 +23,6 @@ const userSchema = new Schema({
     
   isVerified: { type: Boolean , default: false},
   verificationCode: { type: String , default:'00000'},
-  isAble:{type:Boolean,default:true},
   
   createAt: { type: Date, default: Date.now },
   updateAt:{ type: Date, default: Date.now },
@@ -32,8 +31,17 @@ const userSchema = new Schema({
   totalExpense : {type: Number, default: 0},
   totalMoney : {type: Number, default: 0},
 
-  
+  totalIncomeJun : {type: Number, default: 0},
+  totalExpenseJun : {type: Number, default: 0},
 
+  totalIncomeJul : {type: Number, default: 0},
+  totalExpenseJul : {type: Number, default: 0},
+
+  totalIncomeAug : {type: Number, default: 0},
+  totalExpenseAug : {type: Number, default: 0},
+
+  totalIncomeSep : {type: Number, default: 0},
+  totalExpenseSep : {type: Number, default: 0},
 });
 
 module.exports = mongoose.models.user || mongoose.model('User', userSchema);
