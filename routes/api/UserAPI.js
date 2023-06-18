@@ -48,11 +48,11 @@ router.post('/loginGoogle', async (req, res, next) => {
 router.post('/register', [], async (req, res, next) => {
     try {
         const { email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode, isAble } = req.body;
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble,limit } = req.body;
         console.log(email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode)
         const user = await userController.register(email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode, isAble);
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble,limit);
         console.log(user)
 
         if (user) {
@@ -85,12 +85,12 @@ router.put('/update', async (req, res, next) => {
     try {
         const { idUser } = req.query
         const { email, password, name, description,
-            avatar, role, createAt, updateAt, isLogin, isAble } = req.body;
+            avatar, role, createAt, updateAt, isLogin, isAble,limit } = req.body;
         console.log(email, password, name, description,
             avatar, role, createAt, updateAt, isLogin);
 
         const user = await userController.updateUser(idUser, email, password, name, description,
-            avatar, role, createAt, updateAt, isLogin, isAble);
+            avatar, role, createAt, updateAt, isLogin, isAble,limit);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Update Success" })

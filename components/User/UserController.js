@@ -40,10 +40,10 @@ const getById = async (id) => {
         return null;
     }
 }
-const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,limit) => {
     try {
         return await UserService.updateUser(idUser, email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode);
+            updateAt, isLogin, isActive, isVerified, verificationCode,limit);
 
     } catch (error) {
         return false;

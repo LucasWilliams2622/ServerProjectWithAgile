@@ -92,7 +92,7 @@ const deleteUser = async (email) => {
     }
 }
 
-const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode) => {
+const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,limit) => {
     try {
         const user = await UserModel.findOne({ _id: idUser })
         console.log("sadad", user);
@@ -111,6 +111,9 @@ const updateUser = async (idUser, email, password, name, description, avatar, ro
             user.createAt = createAt ? createAt : user.createAt;
             user.updateAt = updateAt ? updateAt : user.updateAt;
             user.isLogin = isLogin ? isLogin : user.isLogin;
+            user.limit = limit ? limit : user.limit;
+
+            
             await user.save();
             console.log("INFO USER:", user);
 
