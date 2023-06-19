@@ -48,11 +48,11 @@ router.post('/loginGoogle', async (req, res, next) => {
 router.post('/register', [], async (req, res, next) => {
     try {
         const { email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode, isAble,limit } = req.body;
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble, limit } = req.body;
         console.log(email, password, name, description, avatar, role, createAt,
             updateAt, isLogin, isActive, isVerified, verificationCode)
         const user = await userController.register(email, password, name, description, avatar, role, createAt,
-            updateAt, isLogin, isActive, isVerified, verificationCode, isAble,limit);
+            updateAt, isLogin, isActive, isVerified, verificationCode, isAble, limit);
         console.log(user)
 
         if (user) {
@@ -84,13 +84,10 @@ router.get('/get-by-id/', async (req, res, next) => {
 router.put('/update', async (req, res, next) => {
     try {
         const { idUser } = req.query
-        const { email, password, name, description,
-            avatar, role, createAt, updateAt, isLogin, isAble,limit } = req.body;
-        console.log(email, password, name, description,
-            avatar, role, createAt, updateAt, isLogin);
+        const { avatar, name, description, limit } = req.body;
+        console.log( avatar, name, description, limit);
 
-        const user = await userController.updateUser(idUser, email, password, name, description,
-            avatar, role, createAt, updateAt, isLogin, isAble,limit);
+        const user = await userController.updateUser(idUser, avatar, name, description, limit);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Update Success" })

@@ -92,28 +92,17 @@ const deleteUser = async (email) => {
     }
 }
 
-const updateUser = async (idUser, email, password, name, description, avatar, role, createAt, updateAt, isLogin, isActive, isVerified, verificationCode,limit) => {
+const updateUser = async (idUser, avatar, name, description, limit) => {
     try {
         const user = await UserModel.findOne({ _id: idUser })
         console.log("sadad", user);
         if (user) {
 
-            user.password = password ? password : user.password;
+            user.avatar = avatar ? avatar : user.avatar;
             user.name = name ? name : user.name;
             user.description = description ? description : user.description;
-
-            user.avatar = avatar ? avatar : user.avatar;
-            user.role = role ? role : user.role;
-            user.isActive = isActive ? isActive : user.isActive;
-            user.isVerified = isVerified ? isVerified : user.isVerified;
-            user.verificationCode = verificationCode ? verificationCode : user.verificationCode;
-
-            user.createAt = createAt ? createAt : user.createAt;
-            user.updateAt = updateAt ? updateAt : user.updateAt;
-            user.isLogin = isLogin ? isLogin : user.isLogin;
             user.limit = limit ? limit : user.limit;
 
-            
             await user.save();
             console.log("INFO USER:", user);
 
@@ -219,5 +208,5 @@ const changeForgotPassword = async (email, newPassword) => {
 module.exports = {
     login, loginGoogle, register, deleteUser,
     updateUser, getAllUser, search, changePassword,
-    disableAccount, getById,changeForgotPassword
+    disableAccount, getById, changeForgotPassword
 };
